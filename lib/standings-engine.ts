@@ -11,6 +11,7 @@ export interface TeamStanding {
   gf: number
   ga: number
   gd: number
+  gfRatio: number
   pims: number
   fastestFirstGoal: number | null
   rank: number
@@ -429,6 +430,9 @@ function toStanding(
   tiebreakerUsed: string | null,
   coinTossNeeded: boolean
 ): TeamStanding {
+  const total = stats.gf + stats.ga
+  const gfRatio = total === 0 ? 0.5 : parseFloat((stats.gf / total).toFixed(5))
+
   return {
     teamId: stats.teamId,
     teamName: stats.teamName,
@@ -440,6 +444,7 @@ function toStanding(
     gf: stats.gf,
     ga: stats.ga,
     gd: stats.gd,
+    gfRatio,
     pims: stats.pims,
     fastestFirstGoal: stats.fastestFirstGoal,
     rank,

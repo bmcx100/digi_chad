@@ -29,6 +29,7 @@ export interface Game {
   id: string
   tournament_id: string | null
   pool_id: string | null
+  season_id: string | null
   game_number: string | null
   stage: GameStage
   start_datetime: string
@@ -37,6 +38,8 @@ export interface Game {
   away_team_id: string | null
   home_placeholder: string | null
   away_placeholder: string | null
+  bracket_source_game_1_id: string | null
+  bracket_source_game_2_id: string | null
   final_score_home: number | null
   final_score_away: number | null
   goals_by_period_home: number[] | null
@@ -46,7 +49,11 @@ export interface Game {
   fastest_goal_seconds_home: number | null
   fastest_goal_seconds_away: number | null
   result_type: string | null
+  end_reason: string | null
+  overtime_winner_team_id: string | null
+  shootout_winner_team_id: string | null
   status: GameStatus
+  entered_by: string | null
   home_team: Team | null
   away_team: Team | null
   pool: Pool | null

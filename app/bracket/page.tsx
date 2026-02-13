@@ -1,17 +1,19 @@
 import { createClient } from "@/lib/supabase/server"
 import { TOURNAMENT_ID } from "@/lib/constants"
+import { calculateStandings } from "@/lib/standings-engine"
 import { BracketView } from "@/components/bracket/BracketView"
-import type { Game } from "@/lib/types"
+import type { Game, TiebreakerRule } from "@/lib/types"
 
 export default async function BracketPage() {
   const supabase = await createClient()
 
   const { data: tournament } = await supabase
     .from("tournaments")
-    .select("name")
+    .select("name, goal_differential_cap")
     .eq("id", TOURNAMENT_ID)
     .single()
 
+  // Fetch bracket games
   const { data: bracketGames } = await supabase
     .from("games")
     .select(`
@@ -28,13 +30,110 @@ export default async function BracketPage() {
   const semi2 = games.find((g) => g.stage === "semifinal" && g.game_number === "372") ?? null
   const finalGame = games.find((g) => g.stage === "final") ?? null
 
+  // Compute standings to auto-populate bracket placeholders
+  const { data: pools } = await supabase
+    .from("pools")
+    .select("id, name, advancement_count")
+    .eq("tournament_id", TOURNAMENT_ID)
+    .order("name")
+
+  const { data: poolTeamsData } = await supabase
+    .from("pool_teams")
+    .select("pool_id, team_id, teams(id, name)")
+    .in("pool_id", (pools ?? []).map((p) => p.id))
+
+  const { data: poolGames } = await supabase
+    .from("games")
+    .select("*")
+    .eq("tournament_id", TOURNAMENT_ID)
+    .eq("stage", "pool_play")
+
+  const { data: tiebreakerRules } = await supabase
+    .from("tiebreaker_rules")
+    .select("*")
+    .eq("tournament_id", TOURNAMENT_ID)
+    .order("priority_order")
+
+  const { data: pointStructure } = await supabase
+    .from("tournament_point_structure")
+    .select("win_points, tie_points, loss_points")
+    .eq("tournament_id", TOURNAMENT_ID)
+    .single()
+
+  const goalDiffCap = tournament?.goal_differential_cap ?? 5
+  const pts = pointStructure ?? { win_points: 2, tie_points: 1, loss_points: 0 }
+
+  // Build a map of pool standings: "Pool A" -> [1st, 2nd, ...]
+  const standingsMap = new Map<string, { teamId: string; teamName: string }[]>()
+  for (const pool of pools ?? []) {
+    const teamsInPool = (poolTeamsData ?? [])
+      .filter((pt) => pt.pool_id === pool.id)
+      .map((pt) => {
+        const team = pt.teams as unknown as { id: string; name: string }
+        return { teamId: team.id, teamName: team.name }
+      })
+
+    const standings = calculateStandings(
+      teamsInPool,
+      (poolGames ?? []).filter((g) => g.pool_id === pool.id) as Game[],
+      (tiebreakerRules ?? []) as TiebreakerRule[],
+      pts,
+      goalDiffCap
+    )
+
+    standingsMap.set(
+      pool.name,
+      standings.map((s) => ({ teamId: s.teamId, teamName: s.teamName }))
+    )
+  }
+
+  // Resolve placeholder text like "1st Pool A" to actual team from standings
+  function resolvePlaceholder(game: Game | null): Game | null {
+    if (!game) return null
+
+    const resolved = { ...game }
+    const placeholderPattern = /^(1st|2nd|3rd|4th)\s+(.+)$/i
+
+    if (!resolved.home_team_id && resolved.home_placeholder) {
+      const match = resolved.home_placeholder.match(placeholderPattern)
+      if (match) {
+        const rank = ["1st", "2nd", "3rd", "4th"].indexOf(match[1].toLowerCase())
+        const poolTeams = standingsMap.get(match[2])
+        if (poolTeams && rank >= 0 && rank < poolTeams.length) {
+          const team = poolTeams[rank]
+          resolved.home_team_id = team.teamId
+          resolved.home_team = { id: team.teamId, name: team.teamName, external_id: null, level: null, skill_level: null, division: null }
+        }
+      }
+    }
+
+    if (!resolved.away_team_id && resolved.away_placeholder) {
+      const match = resolved.away_placeholder.match(placeholderPattern)
+      if (match) {
+        const rank = ["1st", "2nd", "3rd", "4th"].indexOf(match[1].toLowerCase())
+        const poolTeams = standingsMap.get(match[2])
+        if (poolTeams && rank >= 0 && rank < poolTeams.length) {
+          const team = poolTeams[rank]
+          resolved.away_team_id = team.teamId
+          resolved.away_team = { id: team.teamId, name: team.teamName, external_id: null, level: null, skill_level: null, division: null }
+        }
+      }
+    }
+
+    return resolved
+  }
+
   return (
     <div className="bracket-page">
       <div className="bracket-header">
         <h1 className="bracket-title">{tournament?.name} — Bracket</h1>
       </div>
 
-      <BracketView semi1={semi1} semi2={semi2} final={finalGame} />
+      <BracketView
+        semi1={resolvePlaceholder(semi1)}
+        semi2={resolvePlaceholder(semi2)}
+        final={resolvePlaceholder(finalGame)}
+      />
     </div>
   )
 }

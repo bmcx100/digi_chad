@@ -38,6 +38,7 @@ export function ScoreEntrySheet({
   const [awayFirstGoalMin, setAwayFirstGoalMin] = useState("")
   const [awayFirstGoalSec, setAwayFirstGoalSec] = useState("")
   const [resultType, setResultType] = useState("regulation")
+  const [otWinner, setOtWinner] = useState<"home" | "away" | "">("")
   const [saving, setSaving] = useState(false)
   const [periodWarning, setPeriodWarning] = useState("")
 
@@ -60,6 +61,12 @@ export function ScoreEntrySheet({
       setAwayPims(game.penalty_minutes_away?.toString() ?? "")
       setResultType(game.result_type ?? "regulation")
       setShowPeriods(!!game.goals_by_period_home)
+
+      if (game.overtime_winner_team_id === game.home_team_id) setOtWinner("home")
+      else if (game.overtime_winner_team_id === game.away_team_id) setOtWinner("away")
+      else if (game.shootout_winner_team_id === game.home_team_id) setOtWinner("home")
+      else if (game.shootout_winner_team_id === game.away_team_id) setOtWinner("away")
+      else setOtWinner("")
 
       if (game.fastest_goal_seconds_home != null) {
         setHomeFirstGoalMin(
@@ -158,6 +165,18 @@ export function ScoreEntrySheet({
     const aGoal = toSeconds(awayFirstGoalMin, awayFirstGoalSec)
     if (hGoal !== null) update.fastest_goal_seconds_home = hGoal
     if (aGoal !== null) update.fastest_goal_seconds_away = aGoal
+
+    if (resultType === "overtime" && otWinner) {
+      update.overtime_winner_team_id =
+        otWinner === "home" ? game!.home_team_id : game!.away_team_id
+      update.end_reason = "OT"
+    } else if (resultType === "shootout" && otWinner) {
+      update.shootout_winner_team_id =
+        otWinner === "home" ? game!.home_team_id : game!.away_team_id
+      update.end_reason = "shootout"
+    } else {
+      update.end_reason = "regulation"
+    }
 
     await supabase.from("games").update(update).eq("id", game!.id)
 
@@ -360,13 +379,40 @@ export function ScoreEntrySheet({
                     key={type}
                     variant={resultType === type ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setResultType(type)}
+                    onClick={() => {
+                      setResultType(type)
+                      if (type !== "overtime" && type !== "shootout") setOtWinner("")
+                    }}
                   >
                     {type.charAt(0).toUpperCase() + type.slice(1)}
                   </Button>
                 )
               )}
             </div>
+
+            {(resultType === "overtime" || resultType === "shootout") && (
+              <div className="score-entry__section">
+                <span className="score-entry__section-title">
+                  {resultType === "overtime" ? "OT" : "Shootout"} Winner
+                </span>
+                <div className="flex gap-2">
+                  <Button
+                    variant={otWinner === "home" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setOtWinner("home")}
+                  >
+                    {homeName}
+                  </Button>
+                  <Button
+                    variant={otWinner === "away" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setOtWinner("away")}
+                  >
+                    {awayName}
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
 
           <Separator />

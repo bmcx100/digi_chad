@@ -31,6 +31,7 @@ export function StandingsTable({
               <th>GF</th>
               <th>GA</th>
               <th>GD</th>
+              <th>Ratio</th>
             </tr>
           </thead>
           <tbody>
@@ -73,6 +74,7 @@ export function StandingsTable({
                   <td>{team.gf}</td>
                   <td>{team.ga}</td>
                   <td>{team.gd > 0 ? `+${team.gd}` : team.gd}</td>
+                  <td>{team.gfRatio.toFixed(3)}</td>
                 </tr>
               )
             })}
