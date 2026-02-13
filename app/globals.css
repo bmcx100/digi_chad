@@ -124,3 +124,358 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ============================================
+   Schedule & Game Card Styles
+   ============================================ */
+
+.schedule-page {
+  @apply min-h-screen pb-20;
+}
+
+.schedule-header {
+  @apply sticky top-0 z-10 bg-background border-b px-4 py-3;
+}
+
+.schedule-title {
+  @apply text-lg font-bold truncate;
+}
+
+.schedule-dates {
+  @apply text-sm text-muted-foreground;
+}
+
+.schedule-games {
+  @apply flex flex-col gap-2 p-4;
+}
+
+.game-card {
+  @apply relative flex flex-col gap-1 rounded-lg border p-3 transition-colors;
+}
+
+.game-card--my-team {
+  @apply border-l-4 border-l-blue-500 bg-blue-50/50 dark:bg-blue-950/20;
+}
+
+.game-card--in-progress {
+  @apply border-yellow-400 bg-yellow-50/50 dark:bg-yellow-950/20;
+}
+
+.game-card--completed {
+  @apply opacity-80;
+}
+
+.game-card__top-row {
+  @apply flex items-center justify-between text-xs text-muted-foreground;
+}
+
+.game-card__game-number {
+  @apply font-mono;
+}
+
+.game-card__venue {
+  @apply truncate;
+}
+
+.game-card__matchup {
+  @apply flex items-center justify-between gap-2 py-1;
+}
+
+.game-card__team {
+  @apply flex-1 text-sm font-medium;
+}
+
+.game-card__team--home {
+  @apply text-right;
+}
+
+.game-card__team--away {
+  @apply text-left;
+}
+
+.game-card__team--highlight {
+  @apply font-bold text-blue-600 dark:text-blue-400;
+}
+
+.game-card__vs {
+  @apply text-xs text-muted-foreground shrink-0;
+}
+
+.game-card__score {
+  @apply text-lg font-bold tabular-nums shrink-0 min-w-[3rem] text-center;
+}
+
+.game-card__time {
+  @apply text-sm font-semibold;
+}
+
+.game-card__status-badge {
+  @apply inline-flex items-center gap-1 text-xs;
+}
+
+.game-card__live-dot {
+  @apply inline-block h-2 w-2 rounded-full bg-yellow-500 animate-pulse;
+}
+
+.pool-filter {
+  @apply flex gap-2 px-4 py-2 overflow-x-auto;
+}
+
+.pool-filter__button {
+  @apply text-sm whitespace-nowrap;
+}
+
+/* ============================================
+   Bottom Navigation
+   ============================================ */
+
+.bottom-nav {
+  @apply fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around
+         border-t bg-background px-2 py-2;
+}
+
+.bottom-nav__item {
+  @apply flex flex-col items-center gap-0.5 text-xs text-muted-foreground
+         transition-colors;
+}
+
+.bottom-nav__item--active {
+  @apply text-primary font-medium;
+}
+
+.bottom-nav__icon {
+  @apply h-5 w-5;
+}
+
+/* ============================================
+   Score Entry Styles
+   ============================================ */
+
+.score-entry {
+  @apply flex flex-col gap-6 py-4;
+}
+
+.score-entry__teams {
+  @apply flex items-center justify-between gap-4;
+}
+
+.score-entry__team-col {
+  @apply flex flex-1 flex-col items-center gap-2;
+}
+
+.score-entry__team-name {
+  @apply text-sm font-semibold text-center leading-tight;
+}
+
+.score-entry__score-input {
+  @apply h-16 w-20 text-center text-3xl font-bold tabular-nums;
+}
+
+.score-entry__divider {
+  @apply text-2xl font-bold text-muted-foreground self-end pb-4;
+}
+
+.score-entry__section {
+  @apply flex flex-col gap-3;
+}
+
+.score-entry__section-title {
+  @apply text-sm font-semibold text-muted-foreground;
+}
+
+.score-entry__period-row {
+  @apply flex items-center gap-3;
+}
+
+.score-entry__period-label {
+  @apply w-8 text-sm text-muted-foreground shrink-0;
+}
+
+.score-entry__period-input {
+  @apply h-10 w-16 text-center text-lg tabular-nums;
+}
+
+.score-entry__stat-row {
+  @apply flex items-center gap-3;
+}
+
+.score-entry__stat-label {
+  @apply flex-1 text-sm;
+}
+
+.score-entry__stat-input {
+  @apply h-10 w-20 text-center tabular-nums;
+}
+
+.score-entry__time-group {
+  @apply flex items-center gap-1;
+}
+
+.score-entry__time-input {
+  @apply h-10 w-14 text-center tabular-nums;
+}
+
+.score-entry__time-sep {
+  @apply text-muted-foreground font-bold;
+}
+
+.score-entry__actions {
+  @apply flex flex-col gap-2 pt-2;
+}
+
+.score-entry__warning {
+  @apply text-xs text-yellow-600 dark:text-yellow-400;
+}
+
+/* ============================================
+   Standings Styles
+   ============================================ */
+
+.standings-page {
+  @apply min-h-screen pb-20;
+}
+
+.standings-header {
+  @apply sticky top-0 z-10 bg-background border-b px-4 py-3;
+}
+
+.standings-title {
+  @apply text-lg font-bold;
+}
+
+.standings-pool {
+  @apply px-4 py-4;
+}
+
+.standings-pool__title {
+  @apply text-base font-bold mb-3;
+}
+
+.standings-table-wrap {
+  @apply overflow-x-auto -mx-4 px-4;
+}
+
+.standings-table {
+  @apply w-full text-sm border-collapse;
+}
+
+.standings-table th {
+  @apply text-xs font-semibold text-muted-foreground text-right px-2 py-1.5
+         border-b whitespace-nowrap;
+}
+
+.standings-table th:first-child {
+  @apply text-left;
+}
+
+.standings-table td {
+  @apply text-right px-2 py-2 border-b tabular-nums;
+}
+
+.standings-table td:first-child {
+  @apply text-left;
+}
+
+.standings-row {
+  @apply transition-colors;
+}
+
+.standings-row--my-team {
+  @apply bg-blue-50/50 dark:bg-blue-950/20 font-semibold;
+}
+
+.standings-row--advancing {
+  @apply border-l-2 border-l-green-500;
+}
+
+.standings-row__team-cell {
+  @apply flex items-center gap-2;
+}
+
+.standings-row__rank {
+  @apply text-muted-foreground text-xs w-4 shrink-0;
+}
+
+.standings-row__team-name {
+  @apply truncate max-w-[140px];
+}
+
+.standings-row__tiebreaker {
+  @apply text-[10px] text-muted-foreground ml-1;
+}
+
+.standings-row__coin-toss {
+  @apply text-[10px] text-yellow-600 dark:text-yellow-400 ml-1;
+}
+
+/* ============================================
+   Bracket Styles
+   ============================================ */
+
+.bracket-page {
+  @apply min-h-screen pb-20;
+}
+
+.bracket-header {
+  @apply sticky top-0 z-10 bg-background border-b px-4 py-3;
+}
+
+.bracket-title {
+  @apply text-lg font-bold;
+}
+
+.bracket-container {
+  @apply flex flex-col items-center gap-6 p-4;
+}
+
+.bracket-round {
+  @apply w-full max-w-md;
+}
+
+.bracket-round__title {
+  @apply text-sm font-semibold text-muted-foreground text-center mb-3;
+}
+
+.bracket-game {
+  @apply rounded-lg border overflow-hidden;
+}
+
+.bracket-game--my-team {
+  @apply border-blue-500;
+}
+
+.bracket-team-row {
+  @apply flex items-center justify-between px-3 py-2.5 text-sm;
+}
+
+.bracket-team-row:first-child {
+  @apply border-b;
+}
+
+.bracket-team-row--winner {
+  @apply font-bold;
+}
+
+.bracket-team-row--my-team {
+  @apply bg-blue-50/50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400 font-bold;
+}
+
+.bracket-team-name {
+  @apply truncate flex-1;
+}
+
+.bracket-team-score {
+  @apply text-lg font-bold tabular-nums ml-3;
+}
+
+.bracket-connector {
+  @apply flex justify-center py-2;
+}
+
+.bracket-connector__line {
+  @apply w-px h-6 bg-border;
+}
+
+.bracket-tbd {
+  @apply text-muted-foreground italic;
+}

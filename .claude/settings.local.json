@@ -1,4 +1,15 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Read",
+      "Write",
+      "*",
+      "Bash(*)",
+      "Bash(supabase:*)",
+      "Bash(npx supabase:*)"
+    ]
+  },
   "hooks": {
     "PostToolUse": [
       {
