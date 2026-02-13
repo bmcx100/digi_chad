@@ -16,6 +16,8 @@ export interface Team {
   level: string | null
   skill_level: string | null
   division: string | null
+  short_location: string | null
+  short_name: string | null
 }
 
 export interface Pool {

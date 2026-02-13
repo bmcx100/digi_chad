@@ -22,8 +22,8 @@ export default async function SchedulePage() {
     .from("games")
     .select(`
       *,
-      home_team:teams!games_home_team_id_fkey(id, name, external_id, level, skill_level, division),
-      away_team:teams!games_away_team_id_fkey(id, name, external_id, level, skill_level, division),
+      home_team:teams!games_home_team_id_fkey(id, name, external_id, level, skill_level, division, short_location, short_name),
+      away_team:teams!games_away_team_id_fkey(id, name, external_id, level, skill_level, division, short_location, short_name),
       pool:pools!games_pool_id_fkey(id, tournament_id, name, advancement_count)
     `)
     .eq("tournament_id", TOURNAMENT_ID)

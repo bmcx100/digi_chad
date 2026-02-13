@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { MY_TEAM_ID } from "@/lib/constants"
-import type { Game, RankingsMap } from "@/lib/types"
+import type { Game, Team, RankingsMap } from "@/lib/types"
 
 interface GameCardProps {
   game: Game
@@ -18,14 +18,45 @@ function formatTime(datetime: string) {
   })
 }
 
+function TeamDisplay({
+  team,
+  placeholder,
+  rank,
+}: {
+  team: Team | null
+  placeholder: string | null
+  rank: number | undefined
+}) {
+  if (!team) {
+    return <span className="game-card__team-name">{placeholder ?? "TBD"}</span>
+  }
+
+  if (team.short_location && team.short_name) {
+    return (
+      <>
+        <span className="game-card__team-location">{team.short_location}</span>
+        <span className="game-card__team-name">
+          {team.short_name}
+          {rank != null && <span className="game-card__rank"> #{rank}</span>}
+        </span>
+      </>
+    )
+  }
+
+  return (
+    <span className="game-card__team-name">
+      {team.name}
+      {rank != null && <span className="game-card__rank"> #{rank}</span>}
+    </span>
+  )
+}
+
 export function GameCard({ game, rankings, onTap }: GameCardProps) {
   const isMyTeam =
     game.home_team_id === MY_TEAM_ID || game.away_team_id === MY_TEAM_ID
   const isInProgress = game.status === "in_progress"
   const isCompleted = game.status === "completed"
 
-  const homeName = game.home_team?.name ?? game.home_placeholder ?? "TBD"
-  const awayName = game.away_team?.name ?? game.away_placeholder ?? "TBD"
   const homeRank = game.home_team_id ? rankings?.[game.home_team_id] : undefined
   const awayRank = game.away_team_id ? rankings?.[game.away_team_id] : undefined
 
@@ -57,17 +88,18 @@ export function GameCard({ game, rankings, onTap }: GameCardProps) {
       </div>
 
       <div className="game-card__matchup">
-        <span
+        <div
           className={cn(
             "game-card__team game-card__team--home",
             game.home_team_id === MY_TEAM_ID && "game-card__team--highlight"
           )}
         >
-          {homeName}
-          {homeRank != null && (
-            <span className="game-card__rank"> #{homeRank}</span>
-          )}
-        </span>
+          <TeamDisplay
+            team={game.home_team}
+            placeholder={game.home_placeholder}
+            rank={homeRank}
+          />
+        </div>
 
         {isCompleted ? (
           <span className="game-card__score">
@@ -77,17 +109,18 @@ export function GameCard({ game, rankings, onTap }: GameCardProps) {
           <span className="game-card__vs">vs</span>
         )}
 
-        <span
+        <div
           className={cn(
             "game-card__team game-card__team--away",
             game.away_team_id === MY_TEAM_ID && "game-card__team--highlight"
           )}
         >
-          {awayName}
-          {awayRank != null && (
-            <span className="game-card__rank"> #{awayRank}</span>
-          )}
-        </span>
+          <TeamDisplay
+            team={game.away_team}
+            placeholder={game.away_placeholder}
+            rank={awayRank}
+          />
+        </div>
       </div>
     </button>
   )

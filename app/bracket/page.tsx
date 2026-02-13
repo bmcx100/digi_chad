@@ -102,7 +102,7 @@ export default async function BracketPage() {
         if (poolTeams && rank >= 0 && rank < poolTeams.length) {
           const team = poolTeams[rank]
           resolved.home_team_id = team.teamId
-          resolved.home_team = { id: team.teamId, name: team.teamName, external_id: null, level: null, skill_level: null, division: null }
+          resolved.home_team = { id: team.teamId, name: team.teamName, external_id: null, level: null, skill_level: null, division: null, short_location: null, short_name: null }
         }
       }
     }
@@ -115,7 +115,7 @@ export default async function BracketPage() {
         if (poolTeams && rank >= 0 && rank < poolTeams.length) {
           const team = poolTeams[rank]
           resolved.away_team_id = team.teamId
-          resolved.away_team = { id: team.teamId, name: team.teamName, external_id: null, level: null, skill_level: null, division: null }
+          resolved.away_team = { id: team.teamId, name: team.teamName, external_id: null, level: null, skill_level: null, division: null, short_location: null, short_name: null }
         }
       }
     }
