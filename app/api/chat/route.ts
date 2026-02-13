@@ -192,10 +192,11 @@ async function handleToolCall(
           (g.away_placeholder as string) ??
           "TBD"
         const dt = new Date(g.start_datetime as string)
-        const dateStr = dt.toLocaleDateString("en-CA")
+        const dateStr = dt.toLocaleDateString("en-CA", { timeZone: "America/Toronto" })
         const timeStr = dt.toLocaleTimeString("en-CA", {
           hour: "2-digit",
           minute: "2-digit",
+          timeZone: "America/Toronto",
         })
         const pool = (g.pool as Record<string, string>)?.name ?? ""
         const gameNum = g.game_number ?? ""
@@ -312,8 +313,9 @@ export async function POST(req: Request) {
     return Response.json({ reply })
   } catch (err) {
     console.error("Chat API error:", err)
+    const message = err instanceof Error ? err.message : "Unknown error"
     return Response.json(
-      { error: "Failed to process chat request" },
+      { error: `Failed to process chat request: ${message}` },
       { status: 500 }
     )
   }
