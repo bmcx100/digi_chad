@@ -34,12 +34,16 @@ export function MiscView({ semi1, semi2, finalGame, rankings }: MiscViewProps) {
             final={finalGame}
             rankings={rankings}
           />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/hisnameis.png"
-            alt="His name is Chad"
-            className="bracket-footer-img"
-          />
+          <div className="bracket-footer">
+            <hr className="bracket-gold-divider" />
+            <h2 className="bracket-gold-heading">More Gold For The Treasurer!!!</h2>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/hisnameis.png"
+              alt="His name is Chad"
+              className="bracket-footer-img"
+            />
+          </div>
         </TabsContent>
 
         <TabsContent value="import">
