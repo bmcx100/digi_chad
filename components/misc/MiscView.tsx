@@ -40,6 +40,20 @@ export function MiscView({ semi1, semi2, finalGame, rankings }: MiscViewProps) {
           <div className="misc-import-wrap">
             <CsvImport />
           </div>
+          <div className="misc-import-footer">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/garbage.jpeg"
+              alt="Garbage time"
+              className="misc-import-footer__bg"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/twomins.png"
+              alt="Two minutes"
+              className="misc-import-footer__overlay"
+            />
+          </div>
         </TabsContent>
       </Tabs>
     </div>

@@ -24,7 +24,6 @@ export function StandingsTable({
   return (
     <div className="standings-pool">
       <div className="standings-pool__header">
-        <h2 className="standings-pool__title">Pool {poolName}</h2>
         <button
           type="button"
           className="standings-details-toggle"

@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server"
-import { TOURNAMENT_ID } from "@/lib/constants"
+import { TOURNAMENT_ID, MY_TEAM_ID } from "@/lib/constants"
 import { calculateStandings } from "@/lib/standings-engine"
-import { StandingsTable } from "@/components/standings/StandingsTable"
+import { StandingsView } from "@/components/standings/StandingsView"
 import type { Game, TiebreakerRule, RankingsMap } from "@/lib/types"
 
 export default async function StandingsPage() {
@@ -55,6 +55,12 @@ export default async function StandingsPage() {
     }
   }
 
+  // Find which pool has my team
+  const myTeamPool = (poolTeamsData ?? []).find(
+    (pt) => pt.team_id === MY_TEAM_ID
+  )
+  const myTeamPoolId = myTeamPool?.pool_id ?? undefined
+
   const goalDiffCap = tournament?.goal_differential_cap ?? 5
   const pts = pointStructure ?? { win_points: 2, tie_points: 1, loss_points: 0 }
 
@@ -102,15 +108,18 @@ export default async function StandingsPage() {
         </a>
       </div>
 
-      {poolStandings.map(({ pool, standings }) => (
-        <StandingsTable
-          key={pool.id}
-          poolName={pool.name}
-          standings={standings}
-          advancementCount={pool.advancement_count}
-          rankings={rankings}
-        />
-      ))}
+      <StandingsView
+        poolStandings={poolStandings}
+        rankings={rankings}
+        myTeamPoolId={myTeamPoolId}
+      />
+
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/hisnameis.png"
+        alt="His name is Chad"
+        className="standings-footer-img"
+      />
     </div>
   )
 }
