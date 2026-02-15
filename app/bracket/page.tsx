@@ -82,7 +82,7 @@ export default async function BracketPage() {
     )
 
     standingsMap.set(
-      pool.name,
+      `Pool ${pool.name}`,
       standings.map((s) => ({ teamId: s.teamId, teamName: s.teamName }))
     )
   }

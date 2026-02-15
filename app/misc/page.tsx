@@ -79,7 +79,7 @@ export default async function MiscPage() {
     )
 
     standingsMap.set(
-      pool.name,
+      `Pool ${pool.name}`,
       standings.map((s) => ({ teamId: s.teamId, teamName: s.teamName }))
     )
   }

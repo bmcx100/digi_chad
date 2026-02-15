@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
+import { advanceBracket } from "@/lib/bracket-advancement"
 import type { Game, RankingsMap } from "@/lib/types"
 
 interface ScoreEntrySheetProps {
@@ -224,6 +225,12 @@ export function ScoreEntrySheet({
     }
 
     await supabase.from("games").update(update).eq("id", game!.id)
+
+    try {
+      await advanceBracket(game!.id, game!.tournament_id!, supabase)
+    } catch (e) {
+      console.error("Bracket advancement failed:", e)
+    }
 
     setSaving(false)
     onSaved?.()
