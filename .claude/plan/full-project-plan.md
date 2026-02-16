@@ -5,6 +5,7 @@
 This is the complete planning specification for a minor hockey team tracking app. It contains everything needed to understand the full vision and build it in phases.
 
 **The document covers:**
+
 1. **Steps 1–3:** Core Idea, Target Users, Core Features (the what and why)
 2. **Step 4:** 13 User Flows (what users actually do, screen by screen)
 3. **Step 5:** Technical Decisions (tech stack and architecture)
@@ -13,6 +14,7 @@ This is the complete planning specification for a minor hockey team tracking app
 6. **Phases 2–5 Detailed Build Order:** Step-by-step build instructions for everything after the MVP, with dependency map
 
 **Building approach:**
+
 - The database schema and architecture should support the FULL vision from day one
 - But features are built in phases — MVP first, then expand
 - Phase 1 (MVP) is a tournament tracker for a specific tournament happening this Friday–Sunday
@@ -25,12 +27,15 @@ This is the complete planning specification for a minor hockey team tracking app
 ## Step 1: The Core Idea
 
 ### Problem
+
 As a minor hockey parent, your kid's season data is fragmented. You're checking the league website for schedules, a different site for tournament brackets, texting other parents for scores, and nobody's tracking individual player stats unless the coach happens to do it. There's no single place to see the full picture of your team's season.
 
 ### Concept
+
 A team-focused app where parents, coaches, and team staff can see everything about their team's season in one place — and follow other teams they care about.
 
 ### What It Covers
+
 - **Game schedule** — regular season + tournament games (date, time, location, opponent)
 - **Scores & results** — game-by-game outcomes, season record, period-by-period scoring (optional)
 - **Tournament brackets & results** — visual brackets, pool play standings
@@ -39,6 +44,7 @@ A team-focused app where parents, coaches, and team staff can see everything abo
 - **AI-powered queries** — ask natural language questions about any of the above
 
 ### Who It's For
+
 Minor hockey parents (U9–U18, competitive level primarily) who want to follow their kid's team — and other teams they care about — without piecing it together from five different sources.
 
 ---
@@ -46,6 +52,7 @@ Minor hockey parents (U9–U18, competitive level primarily) who want to follow 
 ## Data Input Strategy
 
 ### Path 1: Schedules, Results, Brackets, Rankings — Web Connector
+
 - A feature within the app that connects to external league/tournament/ranking websites
 - Reads how those sites structure their data
 - Parses it into a predefined schema by category (schedules formatted one way, results another, etc.)
@@ -53,6 +60,7 @@ Minor hockey parents (U9–U18, competitive level primarily) who want to follow 
 - The app controls the export format on both ends — the connector outputs in the format the app expects based on data category
 
 ### Path 2: Player Stats — Live Game Entry (Later Phase)
+
 - Tap-based UI for real-time stat input during games
 - Quick buttons (goal, assist, penalty, etc.) tied to player jersey numbers
 - Voice-to-stats input planned as a future enhancement
@@ -60,6 +68,7 @@ Minor hockey parents (U9–U18, competitive level primarily) who want to follow 
 - If two people submit stats for the same game, the same smart merge/conflict resolution kicks in
 
 ### Smart Merge System
+
 1. Data comes in (via web connector or manual entry)
 2. App compares incoming data against existing data
 3. **Matches** — auto-confirmed
@@ -72,23 +81,26 @@ Minor hockey parents (U9–U18, competitive level primarily) who want to follow 
 
 ### Users
 
-| Role | Who | Permissions |
-|------|-----|-------------|
-| **Admin** (multiple per team) | Team manager, coach, designated parent | Full control: manage team data, configure team, invite users, run imports, input stats |
-| **Contributor** (multiple per team) | Stats parent, volunteer | Input data: live game stats, scores, schedule additions. Cannot manage team settings or users |
-| **Viewer** | Any invited team member | Read-only: sees schedules, stats, results, rankings. Can ask questions via AI layer |
+| Role                                | Who                                    | Permissions                                                                                   |
+| ----------------------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **Admin** (multiple per team)       | Team manager, coach, designated parent | Full control: manage team data, configure team, invite users, run imports, input stats        |
+| **Contributor** (multiple per team) | Stats parent, volunteer                | Input data: live game stats, scores, schedule additions. Cannot manage team settings or users |
+| **Viewer**                          | Any invited team member                | Read-only: sees schedules, stats, results, rankings. Can ask questions via AI layer           |
 
 ### User Scope
+
 - **Primary (now):** Parent with two kids on different teams, acting as admin for both
 - **Secondary (now):** Other parents/coaches on those teams — log in, view data, interact
 - **Future:** Any minor hockey team that wants to sign up and use the platform
 
 ### Multi-Team Support
+
 - One login, see both (or all) kids' teams
 - Follow friends' teams — see their schedules, results, rankings
 - Cross-team schedule overlap alerts (same rink, same timeframe)
 
 ### Current Landscape (What People Use Today)
+
 - **TeamSnap / RAMP** — used by teams for communication/logistics, not for the tracking this app provides
 - **League websites** — have schedules and results
 - **Tournament websites** — each has their own site with schedules, brackets, results
@@ -96,6 +108,7 @@ Minor hockey parents (U9–U18, competitive level primarily) who want to follow 
 - **No single source has everything**
 
 ### Problem Validation
+
 The pain is real and widespread across competitive minor hockey (U9–U18). Parents actively seek this information and currently piece it together from multiple disconnected sources. Common questions like "what's our record?" or "when do we play next?" require awkward lookups across multiple sites.
 
 ---
@@ -105,12 +118,14 @@ The pain is real and widespread across competitive minor hockey (U9–U18). Pare
 ### Must-Have (Launch)
 
 #### Team Management
+
 - Create/manage a team (name, level, division, season)
 - User roles: Admin, Contributor, Viewer (multiple admins and contributors allowed)
 - Invite/share system for adding people to a team
 - Multi-team support (one login, multiple teams)
 
 #### Team Discovery & Ownership
+
 - Browse/search teams already on the platform
 - Follow any team to see their public data
 - Anyone can create a team — creating it does NOT make you source of truth
@@ -120,6 +135,7 @@ The pain is real and widespread across competitive minor hockey (U9–U18). Pare
 - Shadow copies are invisible to the source of truth admin
 
 #### Following Other Teams
+
 - Follow friends' kids' teams, upcoming opponents, any team of interest
 - See their schedule, results, rankings
 - Get alerts when followed teams' schedules overlap with yours
@@ -127,42 +143,50 @@ The pain is real and widespread across competitive minor hockey (U9–U18). Pare
 - Useful for scouting upcoming opponents
 
 #### Data Privacy
+
 - **Public data:** schedule, results, rankings, tournament brackets — visible to followers
 - **Private data:** player names, jersey numbers, individual stats — NEVER exposed publicly, only visible to invited team members
 
 #### Scheduling
+
 - Full season schedule (date, time, location, opponent)
 - Tournament schedules as distinct events
 - Regular season vs. tournament distinction
 
 #### Game Results
+
 - Final score per game
 - Period-by-period scoring (optional — supports tournament point structures that award per-period wins)
 - Win/loss/tie/OTL record
 - Season record tracking
 
 #### Live Game Entry (Simplified for Launch)
+
 - Score entry (final and optional per-period)
 - Active scorer lock (one person claims the game)
 - Multi-submission merge/conflict resolution if two people submit for the same game
 
 #### Tournament Brackets & Results
+
 - Visual bracket display
 - Pool play standings
 - Results flowing into brackets
 
 #### Provincial Rankings
+
 - Current ranking display
 - Historical ranking movement over the season (trend visualization)
 - Rankings logged against game context — e.g., "Beat Team A on Oct 15 when we were ranked 11th and they were ranked 19th"
 
 #### Data Import — Web Connector
+
 - Built-in feature that connects to external league/tournament/ranking websites
 - Parses data into predefined schema by category
 - Smart merge: confirm matches, flag conflicts, stage new data for review
 - Category-specific formatting controlled by the app
 
 #### AI Conversational Layer
+
 - LLM (e.g., Claude API) connected to all team data
 - Natural language questions about schedule, results, rankings, records
 - Works across multiple teams (your teams and followed teams)
@@ -173,6 +197,7 @@ The pain is real and widespread across competitive minor hockey (U9–U18). Pare
   - "Do any of our followed teams play at the same rink this weekend?"
 
 #### Cross-Team Intelligence
+
 - Schedule overlap detection across your teams AND followed teams
 - Same rink / same time window alerts
 - Especially valuable at tournaments
@@ -183,15 +208,18 @@ The pain is real and widespread across competitive minor hockey (U9–U18). Pare
 ### Later Phases
 
 #### Player Stats (Phase 2)
+
 - Tap-based live stat entry UI (goals, assists, PIMs per player)
 - Player roster with jersey numbers for quick selection
 - Goalie stats (saves, GAA, shutouts)
 - Team shot tracking (shots on goal per team, not per player)
 
 #### Enhanced Scheduling
+
 - Practice scheduling option added to the schedule feature
 
 #### Voice Input (Phase 3)
+
 - Voice-to-stats transcription during games
 - App parses spoken input into structured stats
 - Reviewed/corrected after the game
@@ -199,6 +227,7 @@ The pain is real and widespread across competitive minor hockey (U9–U18). Pare
 ---
 
 ### Key Differentiators
+
 1. **Source-agnostic** — works with any league platform through the web connector; not locked to one ecosystem
 2. **AI-powered queries** — no other minor hockey app lets you ask questions in plain English
 3. **Cross-team intelligence** — schedule overlap detection for multi-kid families and tournament weekends
@@ -209,8 +238,7 @@ The pain is real and widespread across competitive minor hockey (U9–U18). Pare
 
 ---
 
-*Steps 4–7 to be completed.*
----
+## _Steps 4–7 to be completed._
 
 # Step 4: User Flows
 
@@ -237,38 +265,44 @@ The pain is real and widespread across competitive minor hockey (U9–U18). Pare
 ## Flow 2: Home Screen / Team Dashboard
 
 ### Top Level
+
 - Toggle/switch between your main teams (e.g., Kid A's team ↔ Kid B's team)
 
 ### Marquee / Ticker
+
 - Scrolling interesting information from across your world (your teams + followed teams)
 - Content TBD — big wins, ranking jumps, tournament results, schedule overlaps, etc.
 
 ### Next Game Block (Primary Focus)
+
 - Date, time, location, opponent
 - Your season record vs. their season record
 - Your provincial ranking vs. their provincial ranking
 - Head-to-head history (if you've played them before)
 - **Context shifts based on game type:**
 
-| If next game is... | Dashboard emphasizes... |
-|---|---|
-| Regular season | League standings + provincial rankings |
-| Tournament game | Historical record against opponent + provincial rankings |
-| Playoff game | Playoff standings / series record + provincial rankings |
+| If next game is... | Dashboard emphasizes...                                  |
+| ------------------ | -------------------------------------------------------- |
+| Regular season     | League standings + provincial rankings                   |
+| Tournament game    | Historical record against opponent + provincial rankings |
+| Playoff game       | Playoff standings / series record + provincial rankings  |
 
 Provincial rankings are **always** visible regardless of game type.
 
 ### Schedule Lookahead
+
 - Preview of the game after next (and possibly one more)
 - Enough to see what's coming without navigating to full schedule
 
 ### Recent Results
+
 - Last 3 games by default
 - If on a streak (win or loss), extends to show full streak length
   - e.g., "Last 5 games are wins" or "7 game losing streak"
 - Shows score and opponent for each game
 
 ### Friends Section
+
 - Quick switch to see followed teams
 - List of followed teams, each showing:
   - Record to date
@@ -281,11 +315,13 @@ Provincial rankings are **always** visible regardless of game type.
 ## Flow 3: Tournament Mode
 
 ### Activation
+
 - Per-team, NOT global — Team A can be in tournament mode while Team B is in regular season
 - Both teams can be in tournament mode simultaneously (same or different tournaments)
 - Activated when team enters a tournament (manual toggle or detected from schedule)
 
 ### What Changes in Tournament Mode
+
 - **Dashboard** shifts to tournament context:
   - Pool/bracket standings for your team
   - Next tournament game with opponent context (historical record + provincial rankings)
@@ -300,10 +336,12 @@ Provincial rankings are **always** visible regardless of game type.
   - Helps find gaps to watch other games
 
 ### Per-Team Context
+
 - Switch to Team A → tournament dashboard for their tournament
 - Switch to Team B → regular season dashboard (or their own tournament if applicable)
 
 ### Exit
+
 - After tournament's last game, prompt to exit Tournament Mode
 - Returns to normal dashboard view
 
@@ -328,6 +366,7 @@ Provincial rankings are **always** visible regardless of game type.
 ## Flow 5: Data Import via CSV
 
 ### Import Flow
+
 1. Admin goes to import section of the app
 2. Selects data category
 3. Optionally downloads the CSV template for that category
@@ -340,37 +379,45 @@ Provincial rankings are **always** visible regardless of game type.
 ### Import Categories
 
 **1. League Schedule**
+
 - Fields: date, time, location/rink, home team, away team
 - Updates: adds new games, flags conflicts if game exists with different details (time/location change)
 
 **2. League Results**
+
 - Fields: date, home team, away team, home score, away score
 - Optional: period scores, additional game data
 - Updates: fills in scores for existing scheduled games, flags conflicts if score differs
 
 **3. League Standings**
+
 - Fields: team name, wins, losses, ties, OTL, points, games played
 - Updates: overwrites or flags if tracked record doesn't match official standings
 
 **4. Provincial Rankings**
+
 - Fields: team name, rank, division/level
 - Optional: date/timestamp for when ranking was published
 - Updates: adds new ranking snapshot, builds historical trend over time
 
 **5. Tournament Schedule**
+
 - Fields: tournament name, date, time, rink, home team, away team, pool/bracket identifier
 - Updates: same as league schedule but scoped to a specific tournament
 
 **6. Tournament Results**
+
 - Fields: tournament name, date, home team, away team, home score, away score
 - Optional: period scores
 - Updates: same merge logic as league results
 
 **7. Tournament Standings**
+
 - Fields: tournament name, pool/bracket, team name, wins, losses, ties, points
 - Updates: reflects current tournament pool/bracket standings
 
 ### CSV Templates
+
 - Downloadable from the app for each category
 - Pre-formatted with correct column headers
 - Admin fills in data, uploads — no guessing about format
@@ -380,6 +427,7 @@ Provincial rankings are **always** visible regardless of game type.
 ## Flow 6: Game Data Schema
 
 ### Core (Required)
+
 - game_id
 - division
 - stage (regular season, tournament pool play, tournament bracket, playoff)
@@ -391,16 +439,19 @@ Provincial rankings are **always** visible regardless of game type.
 - result_type (regulation / forfeit)
 
 ### Period Detail (Optional)
+
 - goals_by_period_home[], goals_by_period_away[]
 - Supports per-period win point structures some tournaments use
 - Also captures shutout periods
 
 ### Tiebreaker Data (Optional)
+
 - fastest_goal_seconds_home, fastest_goal_seconds_away
 - penalty_minutes_home, penalty_minutes_away
 - Head-to-head derived from team IDs (no separate field needed)
 
 ### Overtime/Shootout (Optional)
+
 - end_reason (regulation / OT / shootout)
 - overtime_winner_team_id
 - shootout_winner_team_id
@@ -413,16 +464,17 @@ Provincial rankings are **always** visible regardless of game type.
 
 Tournaments are built from phases — the app supports mixing and matching:
 
-| Phase | Variations |
-|---|---|
-| **Round Robin / Pool Play** | Single pool or multiple pools. Variable pool sizes. |
-| **Advancement** | Top 1, 2, or more from each pool advance. Bottom teams may go to consolation. |
-| **Elimination** | Quarter-finals, semi-finals, finals. Single elimination typically. |
-| **Consolation** | Optional bracket/games for non-advancing teams to guarantee minimum games played. |
+| Phase                       | Variations                                                                        |
+| --------------------------- | --------------------------------------------------------------------------------- |
+| **Round Robin / Pool Play** | Single pool or multiple pools. Variable pool sizes.                               |
+| **Advancement**             | Top 1, 2, or more from each pool advance. Bottom teams may go to consolation.     |
+| **Elimination**             | Quarter-finals, semi-finals, finals. Single elimination typically.                |
+| **Consolation**             | Optional bracket/games for non-advancing teams to guarantee minimum games played. |
 
 Example config: "3 pools of 4 teams, top 2 from each pool advance to quarter-finals, bottom teams play consolation round."
 
 ### Point Structure
+
 - Default standard (e.g., 2 pts win, 1 pt tie, 0 pts loss) but configurable per tournament
 - Support for bonus points (period wins, shutouts, etc.)
 
@@ -431,6 +483,7 @@ Example config: "3 pools of 4 teams, top 2 from each pool advance to quarter-fin
 Admin sets tiebreaker rules per tournament using two types:
 
 **Type 1: Simple Sort**
+
 - Head-to-head record
 - Goal differential
 - Goals for
@@ -440,12 +493,14 @@ Admin sets tiebreaker rules per tournament using two types:
 - Shutout periods
 
 **Type 2: Custom Formula (almost always one per tournament)**
+
 - Uses a formula combining multiple stats
 - Example: GF / (GF + GA) calculated to 5 decimal places
 - Admin picks stats, defines formula, sets decimal precision, sets whether higher or lower wins
 - Placed into the priority order alongside simple sort items
 
 **Example tiebreaker configuration:**
+
 1. Head-to-head record (simple)
 2. GF / (GF + GA) ratio to 5 decimals (custom formula)
 3. Goal differential (simple)
@@ -457,12 +512,14 @@ In practice, almost every tournament uses at least one custom formula (typically
 ### Scenario Engine ("What Do We Need")
 
 Based on:
+
 - Current pool standings
 - Remaining games in the pool
 - The specific tiebreaker rules for this tournament
 - Possible outcomes of remaining games
 
 The app calculates scenarios:
+
 - "You're guaranteed to advance if you win your next game"
 - "You need to win by 2+ goals AND Team C needs to lose"
 - "You're currently 3rd on goal differential — a shutout win puts you 2nd"
@@ -472,6 +529,7 @@ This is computationally feasible — finite set of remaining games with finite o
 ### Provincial Qualifiers
 
 Multi-stage tournament system:
+
 1. Teams are in a **loop** (geographic or divisional grouping)
 2. Each loop has a different number of teams
 3. A set number of teams from each loop qualify
@@ -487,19 +545,21 @@ The app supports **linked tournaments** — a qualifier that feeds into a main e
 
 ### Access Levels
 
-| Level | How you get it | What you see |
-|---|---|---|
-| **Public Follower** | Follow the team or click a shared link | Schedule, results, rankings, tournament brackets |
-| **Teammate** | Invited by Admin | Everything public + player roster (names/numbers, no contact details) |
-| **Contributor** | Invited by Admin | Everything Teammate sees + can input scores and data |
-| **Admin** | Created the team or promoted by another Admin | Everything + manage members, configure team, run imports |
+| Level               | How you get it                                | What you see                                                          |
+| ------------------- | --------------------------------------------- | --------------------------------------------------------------------- |
+| **Public Follower** | Follow the team or click a shared link        | Schedule, results, rankings, tournament brackets                      |
+| **Teammate**        | Invited by Admin                              | Everything public + player roster (names/numbers, no contact details) |
+| **Contributor**     | Invited by Admin                              | Everything Teammate sees + can input scores and data                  |
+| **Admin**           | Created the team or promoted by another Admin | Everything + manage members, configure team, run imports              |
 
 ### Sharing
+
 - Anyone on the team (Admin, Contributor, Teammate) can share a link to the team
 - The shared link is a **public link** — lets someone follow/view the team's public data
 - Same as following the team — no private access granted
 
 ### Granting Team Membership (Private Access)
+
 - **Only an Admin** can approve someone into the inner circle
 - Admin goes to team settings → Members
 - Invites via role-specific link (Teammate link or Contributor link) or email
@@ -507,14 +567,17 @@ The app supports **linked tournaments** — a qualifier that feeds into a main e
 - Admin can promote members to Admin
 
 ### Invite Links
+
 - Expire in one month
 - Role-specific (Teammate link vs. Contributor link)
 - Admin controls role changes after joining
 
 ### Member List Visibility
+
 - Admin-only — Teammates and Contributors cannot see who else is on the team
 
 ### Removing Members
+
 - Admin removes someone → they silently drop to Public Follower status
 - They can still see public data
 - No notification sent
@@ -543,23 +606,26 @@ The app supports **linked tournaments** — a qualifier that feeds into a main e
 ## Flow 10: AI Chat
 
 ### Access
+
 - Available via icon in the main navigation — accessible from anywhere in the app
 - Every role can use it: Public Followers, Teammates, Contributors, Admins
 - Supports text input and audio/voice input
 
 ### Data Access Rules
+
 The AI's maximum access level is **Teammate** — it is the team's all-knowing teammate, not an admin tool.
 
-| User Role | AI Can Access |
-|---|---|
+| User Role       | AI Can Access                                            |
+| --------------- | -------------------------------------------------------- |
 | Public Follower | Public data only (schedule, results, rankings, brackets) |
-| Teammate | Public data + roster (names/numbers, no contact details) |
-| Contributor | Same as Teammate (AI caps at Teammate level) |
-| Admin | Same as Teammate (AI caps at Teammate level) |
+| Teammate        | Public data + roster (names/numbers, no contact details) |
+| Contributor     | Same as Teammate (AI caps at Teammate level)             |
+| Admin           | Same as Teammate (AI caps at Teammate level)             |
 
 The AI **never** sees member lists, email addresses, contact info, or any admin-level data.
 
 ### Capabilities
+
 - Answer questions about any data the user has access to
 - Cross-team queries (compare your team to followed teams)
 - Tournament scenario engine ("what do we need to advance")
@@ -567,11 +633,13 @@ The AI **never** sees member lists, email addresses, contact info, or any admin-
 - Schedule intelligence ("who plays at the same rink this weekend")
 
 ### Limitations
+
 - **Read-only** — cannot take actions like entering scores. Input stays manual.
 - No access to contact details regardless of role
 - Only sees what the user's role allows
 
 ### Example Interactions
+
 - "What's our record this season?"
 - "When do we play the Wolves next?"
 - "What's our record against them all time?"
@@ -604,12 +672,15 @@ The AI **never** sees member lists, email addresses, contact info, or any admin-
 ## Flow 12: Historical Data Entry & Onboarding
 
 ### Scope
+
 Current season only — no multi-year history.
 
 ### First-Time Setup Guided Onboarding
+
 After creating a team, app prompts: "Want to add your season so far?"
 
 Walks admin through step by step:
+
 1. **Step 1:** Import or enter your schedule (download CSV template, fill in, upload — or enter manually)
 2. **Step 2:** Import or enter results for games already played
 3. **Step 3:** Set your current league standings
@@ -619,6 +690,7 @@ Walks admin through step by step:
 Each step is skippable — come back to it later. Progress indicator shows what's been set up and what's still missing.
 
 ### Provincial Rankings Reminder
+
 - Monthly reminder/notification: "Time to update your provincial rankings"
 - Quick flow: upload new ranking CSV or manually update position
 - New snapshot gets added to the historical trend automatically
@@ -628,26 +700,31 @@ Each step is skippable — come back to it later. Progress indicator shows what'
 ## Flow 13: Master Admin — Bulk Data Import
 
 ### Context
+
 The platform-level super admin (distinct from team-level admin) can seed the entire system with data that benefits all users.
 
 ### Skill Levels
+
 AA, A, BB, B, C
 
 ### Age Groups
+
 U9, U11, U13, U15, U18
 
 ### Master Admin Panel
+
 Separate from normal team admin — only platform admins can access.
 
 ### Import Actions
 
-| Action | Frequency | Input |
-|---|---|---|
-| League standings update | Periodic (monthly with provincial ranking reminder) | CSV per age/skill group or single CSV with age/rank columns |
-| Tournament setup | 1–2x per month | Schedule CSV + manual rules/tiebreaker config |
-| Provincial qualifier loops | Once per season per age/skill level | Manual setup |
+| Action                     | Frequency                                           | Input                                                       |
+| -------------------------- | --------------------------------------------------- | ----------------------------------------------------------- |
+| League standings update    | Periodic (monthly with provincial ranking reminder) | CSV per age/skill group or single CSV with age/rank columns |
+| Tournament setup           | 1–2x per month                                      | Schedule CSV + manual rules/tiebreaker config               |
+| Provincial qualifier loops | Once per season per age/skill level                 | Manual setup                                                |
 
 ### League Standings Import
+
 - Grouped by age + skill level (e.g., U13 AA, U11 A)
 - Single CSV per group, or one CSV covering multiple groups with age/rank columns
 - Too many teams to do individually — bulk is the only realistic approach
@@ -655,6 +732,7 @@ Separate from normal team admin — only platform admins can access.
 - Existing teams get smart merge treatment
 
 ### Tournament Setup
+
 - Frequency: 1–2 tournaments per month when kids are playing
 - Fresh rules input each time — no templating from previous tournaments
 - Full setup process:
@@ -665,6 +743,7 @@ Separate from normal team admin — only platform admins can access.
   5. Confirm — tournament created, all teams populated
 
 ### Provincial Qualifier Loops
+
 - Set up per age/skill level
 - Define the loop: which teams are in it, how many qualify
 - Set format of the qualifier (round robin, series, etc.)
@@ -672,63 +751,73 @@ Separate from normal team admin — only platform admins can access.
 - Link the qualifier to the Provincials tournament it feeds into
 
 ### Auto-Created Teams
+
 When bulk import references teams that don't exist on the platform, they are created as **unowned public shells** — they have schedule and results data but no admin, no private data, no source of truth. Anyone can later claim them or follow them. This is how the platform gets seeded with useful data before users sign up.
 
 ---
 
-*Step 4 Complete. Step 5: Technical Decisions to follow in separate document.*
----
+## _Step 4 Complete. Step 5: Technical Decisions to follow in separate document._
 
 # Step 5: Technical Decisions
 
 ## Tech Stack
 
 ### Frontend
+
 - React + Next.js
 - Tailwind CSS + shadcn/ui
 - Mobile-first responsive design — built for phone screens first, scales up to desktop
 - Deployed on Vercel
 
 ### Backend / Database
+
 - Supabase (PostgreSQL + built-in auth + real-time subscriptions + storage)
 - Next.js API routes for business logic (smart merge, scenario engine, CSV parsing)
 
 ### Authentication
+
 - Supabase Auth (email/password, Google, Apple sign-in)
 - Row Level Security (RLS) to enforce role-based access at the database level
 - Roles: Public Follower, Teammate, Contributor, Admin
 
 ### AI Integration
+
 - Claude API for conversational layer
 - Next.js API route as middleware: user question → assemble relevant data from Supabase based on user's role → send to Claude with context → return answer
 - Audio input via browser speech-to-text API before sending to Claude
 
 ### CSV Import
+
 - Parsed in Next.js API routes using PapaParse
 - Validated against schema per category
 - Smart merge logic runs server-side comparing against existing Supabase data
 
 ### Real-time
+
 - Supabase real-time subscriptions available but **NOT required for launch**
 - Live score updates deferred to a later phase
 - Standard page refresh / polling is sufficient initially
 
 ### Notifications
+
 - In-app notifications (not push, not email)
 - Schedule overlap alerts, tournament updates, ranking reminders
 - Notification center in the app where unread items accumulate
 
 ### Offline Score Entry
+
 - Score entry works offline using local storage / service worker
 - Queues the entry locally
 - Syncs to Supabase when connection returns
 - If a conflict exists when syncing (someone else entered while you were offline), smart merge flags it
 
 ### Hosting
+
 - Vercel for the Next.js app
 - Supabase cloud for database / auth / storage
 
 ## Platform Strategy
+
 - Web app with mobile-first layout and functionality as the priority
 - Responsive design scales up to desktop
 - No native mobile app at launch — responsive web app covers both phone and desktop use cases
@@ -736,8 +825,7 @@ When bulk import references teams that don't exist on the platform, they are cre
 
 ---
 
-*Step 5 Complete. Step 6: MVP Scope to follow in separate document.*
----
+## _Step 5 Complete. Step 6: MVP Scope to follow in separate document._
 
 # Step 6: MVP Scope
 
@@ -746,6 +834,7 @@ When bulk import references teams that don't exist on the platform, they are cre
 The MVP is built for one immediate use case: tracking the upcoming U13A tournament this weekend (Friday–Sunday). Single user (you), one team (Nepean Wildcats), one tournament. Architecture supports future expansion to multi-team, multi-user, full season tracking.
 
 ## Your Team
+
 - **Nepean Wildcats #2859**
 - **Division:** U13A
 - **Pool:** A
@@ -755,6 +844,7 @@ The MVP is built for one immediate use case: tracking the upcoming U13A tourname
 ## Tournament Structure
 
 ### Format
+
 - 2 Pools (A and B), 5 teams each
 - Round robin within pools
 - Top 2 from each pool advance to semi-finals
@@ -763,15 +853,18 @@ The MVP is built for one immediate use case: tracking the upcoming U13A tourname
 - No consolation/bronze medal game
 
 ### Point Structure
+
 - Win: 2 points
 - Tie: 1 point
 - Loss: 0 points
 
 ### Goal Differential Cap
+
 - Maximum +5 per game for differential calculations
 - If you win 8-0, it counts as +5 not +8
 
 ### Tiebreaker Rules (in priority order)
+
 1. **Number of wins** (simple sort, higher is better)
 2. **Head-to-head record** between tied teams (only applies if exactly 2 teams tied)
 3. **GF / (GF + GA) ratio** (custom formula, calculated to 5 decimal places, higher is better)
@@ -785,23 +878,25 @@ The MVP is built for one immediate use case: tracking the upcoming U13A tourname
 ---
 
 ## Pool A Teams
-| Team | ID |
-|---|---|
-| Nepean Wildcats | #2859 |
-| Southpoint Stars | #6672 |
-| Peterborough Ice Kats | #1484 |
+
+| Team                      | ID    |
+| ------------------------- | ----- |
+| Nepean Wildcats           | #2859 |
+| Southpoint Stars          | #6672 |
+| Peterborough Ice Kats     | #1484 |
 | Markham-Stouffville Stars | #3582 |
-| Scarborough Sharks | #845 |
+| Scarborough Sharks        | #845  |
 
 ## Pool B Teams
-| Team | ID |
-|---|---|
+
+| Team                     | ID    |
+| ------------------------ | ----- |
 | Toronto Leaside Wildcats | #3792 |
-| Napanee Crunch | #1878 |
-| North Bay Junior Lakers | #6254 |
-| Cornwall Typhoons | #2328 |
-| Durham West Lightning | #310 |
-| Central York Panthers | #3 |
+| Napanee Crunch           | #1878 |
+| North Bay Junior Lakers  | #6254 |
+| Cornwall Typhoons        | #2328 |
+| Durham West Lightning    | #310  |
+| Central York Panthers    | #3    |
 
 **Note:** Pool B has 6 teams, Pool A has 5 teams.
 
@@ -810,62 +905,69 @@ The MVP is built for one immediate use case: tracking the upcoming U13A tourname
 ## Schedule
 
 ### Friday — Pool A Games
-| Game # | Time | Rink | Home | Away |
-|---|---|---|---|---|
-| 3 | 9:00 AM | ACC 2 | Nepean Wildcats #2859 | Southpoint Stars #6672 |
-| 3 | 9:15 AM | ACC 1 | Peterborough Ice Kats #1484 | Markham-Stouffville Stars #3582 |
-| 48 | 2:00 PM | ACC 4 | Scarborough Sharks #845 | Nepean Wildcats #2859 |
-| 52 | 6:00 PM | ACC 4 | Peterborough Ice Kats #1484 | Southpoint Stars #6672 |
-| 25 | 7:00 PM | ACC 2 | Markham-Stouffville Stars #3582 | Scarborough Sharks #845 |
+
+| Game # | Time    | Rink  | Home                            | Away                            |
+| ------ | ------- | ----- | ------------------------------- | ------------------------------- |
+| 3      | 9:00 AM | ACC 2 | Nepean Wildcats #2859           | Southpoint Stars #6672          |
+| 3      | 9:15 AM | ACC 1 | Peterborough Ice Kats #1484     | Markham-Stouffville Stars #3582 |
+| 48     | 2:00 PM | ACC 4 | Scarborough Sharks #845         | Nepean Wildcats #2859           |
+| 52     | 6:00 PM | ACC 4 | Peterborough Ice Kats #1484     | Southpoint Stars #6672          |
+| 25     | 7:00 PM | ACC 2 | Markham-Stouffville Stars #3582 | Scarborough Sharks #845         |
 
 ### Friday — Pool B Games
-| Game # | Time | Rink | Home | Away |
-|---|---|---|---|---|
-| 2 | 8:15 AM | ACC 1 | Toronto Leaside Wildcats #3792 | Cornwall Typhoons #2328 |
-| 43 | 8:20 AM | ACC 4 | Napanee Crunch #1878 | North Bay Junior Lakers #6254 |
-| 30 | 8:30 AM | ACC 3 | Central York Panthers #3 | Durham West Lightning #310 |
-| 114 | 2:00 PM | Don Beer 2 | Napanee Crunch #1878 | Central York Panthers #3 |
-| 142 | 2:00 PM | O'Brien | North Bay Junior Lakers #6254 | Cornwall Typhoons #2328 |
-| 99 | 2:15 PM | Don Beer 1 | Durham West Lightning #310 | Toronto Leaside Wildcats #3792 |
+
+| Game # | Time    | Rink       | Home                           | Away                           |
+| ------ | ------- | ---------- | ------------------------------ | ------------------------------ |
+| 2      | 8:15 AM | ACC 1      | Toronto Leaside Wildcats #3792 | Cornwall Typhoons #2328        |
+| 43     | 8:20 AM | ACC 4      | Napanee Crunch #1878           | North Bay Junior Lakers #6254  |
+| 30     | 8:30 AM | ACC 3      | Central York Panthers #3       | Durham West Lightning #310     |
+| 114    | 2:00 PM | Don Beer 2 | Napanee Crunch #1878           | Central York Panthers #3       |
+| 142    | 2:00 PM | O'Brien    | North Bay Junior Lakers #6254  | Cornwall Typhoons #2328        |
+| 99     | 2:15 PM | Don Beer 1 | Durham West Lightning #310     | Toronto Leaside Wildcats #3792 |
 
 ### Saturday — Pool A Games
-| Game # | Time | Rink | Home | Away |
-|---|---|---|---|---|
-| 322 | 7:00 AM | Oshawa Canlan 1 | Nepean Wildcats #2859 | Peterborough Ice Kats #1484 |
-| 171 | 7:15 AM | ACC 1 | Southpoint Stars #6672 | Scarborough Sharks #845 |
-| 204 | 11:15 AM | ACC 3 | Central York Panthers #3 | Toronto Leaside Wildcats #3792 |
-| 221 | 1:00 PM | ACC 4 | Markham-Stouffville Stars #3582 | Nepean Wildcats #2859 |
-| 210 | 5:55 PM | ACC 3 | Southpoint Stars #6672 | Markham-Stouffville Stars #3582 |
-| 226 | 6:00 PM | ACC 4 | Scarborough Sharks #845 | Peterborough Ice Kats #1484 |
+
+| Game # | Time     | Rink            | Home                            | Away                            |
+| ------ | -------- | --------------- | ------------------------------- | ------------------------------- |
+| 322    | 7:00 AM  | Oshawa Canlan 1 | Nepean Wildcats #2859           | Peterborough Ice Kats #1484     |
+| 171    | 7:15 AM  | ACC 1           | Southpoint Stars #6672          | Scarborough Sharks #845         |
+| 204    | 11:15 AM | ACC 3           | Central York Panthers #3        | Toronto Leaside Wildcats #3792  |
+| 221    | 1:00 PM  | ACC 4           | Markham-Stouffville Stars #3582 | Nepean Wildcats #2859           |
+| 210    | 5:55 PM  | ACC 3           | Southpoint Stars #6672          | Markham-Stouffville Stars #3582 |
+| 226    | 6:00 PM  | ACC 4           | Scarborough Sharks #845         | Peterborough Ice Kats #1484     |
 
 ### Saturday — Pool B Games
-| Game # | Time | Rink | Home | Away |
-|---|---|---|---|---|
-| 218 | 10:00 AM | ACC 4 | Durham West Lightning #310 | North Bay Junior Lakers #6254 |
-| 189 | 11:00 AM | ACC 2 | Cornwall Typhoons #2328 | Napanee Crunch #1878 |
-| 208 | 3:55 PM | ACC 3 | North Bay Junior Lakers #6254 | Central York Panthers #3 |
-| 194 | 4:00 PM | ACC 2 | Toronto Leaside Wildcats #3792 | Napanee Crunch #1878 |
-| 179 | 5:15 PM | ACC 1 | Cornwall Typhoons #2328 | Durham West Lightning #310 |
+
+| Game # | Time     | Rink  | Home                           | Away                          |
+| ------ | -------- | ----- | ------------------------------ | ----------------------------- |
+| 218    | 10:00 AM | ACC 4 | Durham West Lightning #310     | North Bay Junior Lakers #6254 |
+| 189    | 11:00 AM | ACC 2 | Cornwall Typhoons #2328        | Napanee Crunch #1878          |
+| 208    | 3:55 PM  | ACC 3 | North Bay Junior Lakers #6254  | Central York Panthers #3      |
+| 194    | 4:00 PM  | ACC 2 | Toronto Leaside Wildcats #3792 | Napanee Crunch #1878          |
+| 179    | 5:15 PM  | ACC 1 | Cornwall Typhoons #2328        | Durham West Lightning #310    |
 
 **Note:** Game #204 (Saturday 11:15 AM) appears to be a cross-pool game — Central York Panthers (Pool B) vs Toronto Leaside Wildcats (Pool B) but listed under Pool A schedule. May need clarification.
 
 ### Sunday — Elimination Round
-| Game # | Time | Rink | Matchup |
-|---|---|---|---|
-| 365 | 8:15 AM | Don Beer 1 | 1st in Pool A vs 2nd in Pool B |
-| 372 | 8:30 AM | Don Beer 2 | 1st in Pool B vs 2nd in Pool A |
-| 368 | 1:00 PM | Don Beer 1 | Winner Game #365 vs Winner Game #372 (Final) |
+
+| Game # | Time    | Rink       | Matchup                                      |
+| ------ | ------- | ---------- | -------------------------------------------- |
+| 365    | 8:15 AM | Don Beer 1 | 1st in Pool A vs 2nd in Pool B               |
+| 372    | 8:30 AM | Don Beer 2 | 1st in Pool B vs 2nd in Pool A               |
+| 368    | 1:00 PM | Don Beer 1 | Winner Game #365 vs Winner Game #372 (Final) |
 
 ---
 
 ## Game Data to Record Per Game
 
 ### Required
+
 - game_id
 - final_score_home, final_score_away
 - result_type (regulation / forfeit)
 
 ### Optional (but needed for tiebreakers)
+
 - goals_by_period_home[], goals_by_period_away[]
 - penalty_minutes_home, penalty_minutes_away
 - fastest_goal_seconds_home, fastest_goal_seconds_away (earliest first goal by game clock)
@@ -875,6 +977,7 @@ The MVP is built for one immediate use case: tracking the upcoming U13A tourname
 ## MVP Features to Build
 
 ### Must Have (for this tournament)
+
 1. **Tournament view** — see both pools, all teams, full schedule
 2. **Score entry** — tap a game, enter final score + optional period scores, PIMs, first goal time
 3. **Pool standings** — auto-calculated from entered results using the point structure
@@ -883,9 +986,11 @@ The MVP is built for one immediate use case: tracking the upcoming U13A tourname
 6. **Your team highlighted** — Nepean Wildcats always visually distinct in standings, schedule, brackets
 
 ### Stretch Goal (if time allows)
+
 7. **Scenario engine** — "what do we need to advance" calculations based on remaining games and tiebreaker rules
 
 ### Deferred (build after tournament)
+
 - Authentication / user accounts
 - Roles (Admin, Contributor, Teammate, Public Follower)
 - Invite links and team sharing
@@ -922,6 +1027,7 @@ This ensures nothing gets thrown away or rebuilt when expanding after the tourna
 ---
 
 ## Tournament Name
+
 **DWGHA Bolts & Hearts Annual Tournament**
 February 13–15, 2026
 
@@ -1039,6 +1145,7 @@ Tournament Rules (4 Game Guarantee)
 ```
 
 ### AI Ruleset Integration
+
 - Full ruleset text is included in the AI's system prompt as context
 - When the AI answers questions about tiebreakers, overtime, scheduling rules, etc., it cites the specific rule number
 - Example: "Per Rule 12c, the tiebreaker ratio is calculated as GF / (GF + GA)..."
@@ -1047,6 +1154,7 @@ Tournament Rules (4 Game Guarantee)
 - Users can also browse the full ruleset document within the app
 
 ### Key Rules That Affect App Logic
+
 - **Rule 2:** U13A games are 10-10-12 stop time (affects period tracking)
 - **Rule 9:** Mercy rule — running time at 5+ goal spread in 3rd, stops at less than 3
 - **Rule 11:** Points — 2 for win, 1 for tie, 0 for loss
@@ -1056,8 +1164,7 @@ Tournament Rules (4 Game Guarantee)
 
 ---
 
-*Step 6 Complete. Step 7: Roadmap & Next Steps to follow in separate document.*
----
+## _Step 6 Complete. Step 7: Roadmap & Next Steps to follow in separate document._
 
 # Step 7: Phased Roadmap
 
@@ -1066,15 +1173,18 @@ Tournament Rules (4 Game Guarantee)
 Build order, in priority sequence:
 
 ### 1. Database Schema
+
 - Teams, tournaments, pools, games, tiebreaker config
 - Design for the full vision (users, roles, followed teams, seasons) even though only a slice is used now
 - Supabase PostgreSQL
 
 ### 2. Seed Tournament Data
+
 - Hardcode DWGHA Bolts & Hearts tournament: pools, teams, schedule, tiebreaker rules
 - All data from Step 6 MVP Scope document
 
 ### 3. Tournament Schedule View
+
 - See all games by day (Friday, Saturday, Sunday)
 - Filterable by pool (Pool A, Pool B, Elimination)
 - Your team (Nepean Wildcats) always visually highlighted
@@ -1082,12 +1192,14 @@ Build order, in priority sequence:
 - Games transition from upcoming → in progress → completed
 
 ### 4. Score Entry
+
 - Tap a game to enter results
 - Required: final score
 - Optional: period-by-period scores, penalty minutes (per team), first goal time (game clock)
 - Single user entry — no conflict handling needed yet
 
 ### 5. Pool Standings with Tiebreakers
+
 - Auto-calculated from entered results
 - Point structure: 2 for win, 1 for tie, 0 for loss
 - Goal differential capped at +5 per game
@@ -1103,12 +1215,14 @@ Build order, in priority sequence:
 - Top 2 from each pool highlighted as advancing
 
 ### 6. Bracket View
+
 - Semi-finals: 1A vs 2B, 1B vs 2A
 - Final: winners of semis
 - Auto-populated from pool standings once round robin is complete
 - Show scores once elimination games are played
 
 ### 7. Simple Bulk Import (CSV → Database)
+
 - Admin page: pick data type (standings, schedule, results)
 - Upload CSV
 - Preview what will be inserted
@@ -1117,6 +1231,7 @@ Build order, in priority sequence:
 - Enables quick loading of second kid's team, league standings, playoff schedules after tournament
 
 ### 8. AI Chat with Ruleset
+
 - Claude API connected to tournament data + full ruleset document
 - Can answer questions about standings, schedule, tiebreakers, rules
 - Cites specific rule numbers (e.g., "Per Rule 12c, the ratio is calculated as...")
@@ -1128,6 +1243,7 @@ Build order, in priority sequence:
 ## Phase 2: Post-Tournament Foundation (Weeks 2–4)
 
 ### Auth & Roles
+
 - Supabase Auth (email/password, Google, Apple)
 - User roles: Admin, Contributor, Teammate, Public Follower
 - Row Level Security on all tables
@@ -1136,11 +1252,13 @@ Build order, in priority sequence:
 - Removed members silently drop to Public Follower
 
 ### Multi-Team Support
+
 - Second kid's team added
 - Toggle between teams from home screen
 - Each team has its own dashboard context
 
 ### Regular Season Tracking
+
 - Season schedule (date, time, location, opponent)
 - Game results entry
 - Season record (W-L-T-OTL)
@@ -1151,6 +1269,7 @@ Build order, in priority sequence:
 ## Phase 3: Dashboard & Intelligence (Weeks 4–6)
 
 ### Team Dashboard
+
 - Contextual next game block (adapts based on regular season / tournament / playoff)
 - Opponent record and provincial ranking comparison
 - Head-to-head history
@@ -1159,12 +1278,14 @@ Build order, in priority sequence:
 - Marquee/ticker with interesting info
 
 ### Provincial Rankings
+
 - Manual entry or CSV import
 - Historical tracking over season
 - Rankings logged against game context
 - Monthly reminder to update
 
 ### CSV Import with Smart Merge
+
 - Downloadable templates per category
 - Schema validation per category
 - Smart merge: confirm matches, flag conflicts, stage new data
@@ -1175,16 +1296,19 @@ Build order, in priority sequence:
 ## Phase 4: Social & Discovery (Weeks 6–8)
 
 ### Following Teams
+
 - Browse/search teams on platform
 - Follow any team — see their public data
 - Friends view: list of followed teams with records, rankings, blended schedule
 
 ### Cross-Team Intelligence
+
 - Schedule overlap detection across your teams and followed teams
 - Same rink / same time window alerts
 - Tournament overlap prioritization
 
 ### Team Discovery & Ownership
+
 - Anyone can create a team (does not grant source of truth)
 - Source of truth claim with manual review
 - Verified badge for official teams
@@ -1195,18 +1319,21 @@ Build order, in priority sequence:
 ## Phase 5: Advanced Features (Weeks 8+)
 
 ### Scenario Engine
+
 - "What do we need to advance" calculations
 - Based on remaining games, current standings, tiebreaker rules
 - Runs permutations of possible outcomes
 - Works for tournaments, playoffs, playdowns
 
 ### Tournament Mode
+
 - Per-team activation
 - Dashboard shifts to tournament context
 - Friends at same tournament prioritized
 - Full tournament schedule available as tap-in option
 
 ### Player Stats (Phase 2 of app features)
+
 - Tap-based live stat entry (goals, assists, PIMs per player)
 - Player roster with jersey numbers
 - Active scorer lock + multi-submission merge
@@ -1214,6 +1341,7 @@ Build order, in priority sequence:
 - Team shot tracking
 
 ### Enhanced Features
+
 - Practice scheduling
 - Voice-to-stats input
 - Offline score entry with sync
@@ -1226,30 +1354,29 @@ Build order, in priority sequence:
 
 ## Summary
 
-| Phase | Focus | Timeline |
-|---|---|---|
-| **Phase 1** | Tournament MVP — this tournament, this weekend | This week |
-| **Phase 2** | Auth, roles, multi-team, regular season | Weeks 2–4 |
-| **Phase 3** | Dashboard, rankings, CSV import with smart merge | Weeks 4–6 |
-| **Phase 4** | Following teams, cross-team intelligence, discovery | Weeks 6–8 |
-| **Phase 5** | Scenario engine, tournament mode, player stats, advanced | Weeks 8+ |
+| Phase       | Focus                                                    | Timeline  |
+| ----------- | -------------------------------------------------------- | --------- |
+| **Phase 1** | Tournament MVP — this tournament, this weekend           | This week |
+| **Phase 2** | Auth, roles, multi-team, regular season                  | Weeks 2–4 |
+| **Phase 3** | Dashboard, rankings, CSV import with smart merge         | Weeks 4–6 |
+| **Phase 4** | Following teams, cross-team intelligence, discovery      | Weeks 6–8 |
+| **Phase 5** | Scenario engine, tournament mode, player stats, advanced | Weeks 8+  |
 
 ---
 
 ## All Project Documents
 
-| Document | Contents |
-|---|---|
-| minor-hockey-app-spec.md | Steps 1–3: Core Idea, Target Users, Core Features |
-| step4-user-flows.md | Step 4: All 13 User Flows |
-| step5-technical-decisions.md | Step 5: Tech Stack & Platform Decisions |
-| step6-mvp-scope.md | Step 6: MVP Scope, Tournament Data, Schedule, Ruleset |
-| step7-roadmap.md | Step 7: Phased Roadmap & Build Order |
+| Document                     | Contents                                              |
+| ---------------------------- | ----------------------------------------------------- |
+| minor-hockey-app-spec.md     | Steps 1–3: Core Idea, Target Users, Core Features     |
+| step4-user-flows.md          | Step 4: All 13 User Flows                             |
+| step5-technical-decisions.md | Step 5: Tech Stack & Platform Decisions               |
+| step6-mvp-scope.md           | Step 6: MVP Scope, Tournament Data, Schedule, Ruleset |
+| step7-roadmap.md             | Step 7: Phased Roadmap & Build Order                  |
 
 ---
 
-*Planning complete. Ready to build.*
----
+## _Planning complete. Ready to build._
 
 # Phases 2–5: Detailed Build Order
 
@@ -1258,6 +1385,7 @@ Build order, in priority sequence:
 ### Build Order
 
 #### 2.1 Authentication System
+
 - Set up Supabase Auth (email/password, Google, Apple sign-in)
 - Create users table linked to Supabase Auth
 - Build sign-up and login pages
@@ -1265,6 +1393,7 @@ Build order, in priority sequence:
 - Migrate current hardcoded single-user setup to use real auth
 
 #### 2.2 Roles & Permissions
+
 - Create team_members table (user_id, team_id, role)
 - Define roles: Admin, Contributor, Teammate, Public Follower
 - Implement Row Level Security (RLS) policies on all existing tables:
@@ -1275,6 +1404,7 @@ Build order, in priority sequence:
 - AI chat data access capped at Teammate level regardless of user role
 
 #### 2.3 Invite System
+
 - Build invite link generation (Admin only)
 - Links are role-specific (Teammate link vs. Contributor link)
 - Links expire after 1 month
@@ -1282,6 +1412,7 @@ Build order, in priority sequence:
 - Anyone on the team can share a public follow link (no private access)
 
 #### 2.4 Member Management
+
 - Admin view: see all members and their roles
 - Admin can change roles (promote/demote)
 - Admin can promote members to Admin
@@ -1289,12 +1420,14 @@ Build order, in priority sequence:
 - Member list visible to Admins only
 
 #### 2.5 Multi-Team Support
+
 - Update user interface to support multiple teams per user
 - Build team switcher in header/navigation
 - Each team has independent data, dashboard, and context
 - Add second kid's team — create team, seed with data via bulk import (already built in Phase 1)
 
 #### 2.6 Regular Season Schedule & Results
+
 - Extend existing schedule view to support regular season games (not just tournament)
 - Add stage field distinction: regular season vs. tournament vs. playoff
 - Regular season game entry: date, time, location, opponent, score
@@ -1308,18 +1441,21 @@ Build order, in priority sequence:
 ### Build Order
 
 #### 3.1 Provincial Rankings — Manual Entry
+
 - Create rankings table (team_id, rank, division, level, date_recorded)
 - Build manual entry screen: input your team's current ranking
 - Store each entry as a snapshot with timestamp
 - Display current ranking on team profile
 
 #### 3.2 Provincial Rankings — Historical Tracking
+
 - Build trend visualization showing ranking movement over the season
 - Chart or graph: rank over time
 - Log rankings against game context: "Ranked 11th when we beat Team A on Oct 15, they were ranked 19th"
 - Monthly reminder notification: "Time to update your provincial rankings"
 
 #### 3.3 CSV Import with Smart Merge — Templates
+
 - Build downloadable CSV template system
 - Templates for each category:
   - League schedule
@@ -1332,6 +1468,7 @@ Build order, in priority sequence:
 - Each template has correct column headers and example row
 
 #### 3.4 CSV Import with Smart Merge — Parser & Validation
+
 - Upgrade Phase 1 bulk import to include validation
 - Parse uploaded CSV using PapaParse
 - Validate against expected schema per category
@@ -1339,6 +1476,7 @@ Build order, in priority sequence:
 - Preview parsed data before import
 
 #### 3.5 CSV Import with Smart Merge — Merge Logic
+
 - Compare incoming data against existing database records
 - Match logic: identify same game/team/date across import and existing data
 - **Same data** → auto-confirm, no action needed
@@ -1349,6 +1487,7 @@ Build order, in priority sequence:
 - Core principle: more complete data wins automatically, conflicting data gets flagged
 
 #### 3.6 Dashboard — Next Game Block
+
 - Identify next upcoming game for the active team
 - Display: date, time, location, opponent
 - Show your season record vs. opponent's season record
@@ -1361,17 +1500,20 @@ Build order, in priority sequence:
 - Provincial rankings always visible regardless of game type
 
 #### 3.7 Dashboard — Schedule Lookahead
+
 - Show the next 2–3 upcoming games below the main next game block
 - Compact view: date, time, opponent
 - Tapping any game goes to full game detail
 
 #### 3.8 Dashboard — Recent Results
+
 - Show last 3 games by default
 - If on a streak (win or loss), extend to show full streak length
 - Display: opponent, score, W/L indicator
 - Example: "Last 5 games are wins" or "4 game losing streak"
 
 #### 3.9 Dashboard — Marquee / Ticker
+
 - Scrolling bar of interesting information across your world
 - Sources: your teams + followed teams (followed teams built in Phase 4, but build the marquee infrastructure now)
 - Content types (define what's "interesting"):
@@ -1389,6 +1531,7 @@ Build order, in priority sequence:
 ### Build Order
 
 #### 4.1 Team Discovery — Search & Browse
+
 - Build team search page
 - Search by: team name, level (U9–U18), skill level (AA, A, BB, B, C), association, region
 - Browse by division/level
@@ -1396,18 +1539,21 @@ Build order, in priority sequence:
 - If multiple versions of the same real-world team exist, all are listed
 
 #### 4.2 Follow a Team
+
 - "Follow" button on any team's public profile
 - Creates entry in followed_teams table (user_id, team_id)
 - Followed teams appear in Friends section
 - Unfollow option available
 
 #### 4.3 Team Public Profile
+
 - Any team on the platform has a public profile visible to followers
 - Shows: schedule, results, season record, provincial ranking, tournament brackets
 - Does NOT show: player roster, individual stats, member list, contact details
 - Tap into any game for score details
 
 #### 4.4 Friends View
+
 - Accessible from home screen
 - List of all followed teams
 - Each shows: team name, record to date, provincial ranking
@@ -1415,18 +1561,21 @@ Build order, in priority sequence:
 - Tap any team to see their full public profile
 
 #### 4.5 Cross-Team Schedule Overlap Detection
+
 - Compare schedules across: your teams + all followed teams
 - Identify overlaps: same rink within a configurable time window (e.g., within 2 hours)
 - Especially valuable at tournaments — "Your son's team plays at 10am at Rink A, friend's team plays at 11:15am same rink"
 - Surface overlaps in the Friends view and in the marquee
 
 #### 4.6 Cross-Team Alerts
+
 - In-app notifications when schedule overlaps are detected
 - "Both teams at the same rink on Saturday"
 - "Followed team has a game 30 minutes after yours at the same venue"
 - Notification center in the app where unread items accumulate
 
 #### 4.7 Team Creation by Anyone
+
 - Any user can create a team on the platform
 - Creating a team does NOT make you source of truth
 - You become Admin of that team instance
@@ -1434,6 +1583,7 @@ Build order, in priority sequence:
 - Unowned team shells from bulk import are also searchable and followable
 
 #### 4.8 Source of Truth — Claim & Verification
+
 - "Claim this team" button on any unclaimed team
 - Submitter provides info about who they are and their role with the team
 - Request goes to platform admin (you) for manual review
@@ -1446,6 +1596,7 @@ Build order, in priority sequence:
 - Shadow copies (personal tracking versions) are invisible to source of truth admin
 
 #### 4.9 Master Admin Panel Refinements
+
 - Upgrade Phase 1 simple bulk import into full Master Admin panel
 - Separate from normal team admin — platform-level access only
 - Actions:
@@ -1462,12 +1613,14 @@ Build order, in priority sequence:
 ### Build Order
 
 #### 5.1 Tournament Mode — Per-Team Activation
+
 - Toggle to activate tournament mode for a specific team
 - Can be manually activated or auto-detected from schedule ("You have a tournament this weekend — switch to Tournament Mode?")
 - Per-team, not global — Team A in tournament mode, Team B in regular season
 - Both teams can be in tournament mode simultaneously
 
 #### 5.2 Tournament Mode — Dashboard Shift
+
 - When active, dashboard shifts to tournament context:
   - Pool/bracket standings replace league standings
   - Next tournament game as primary focus
@@ -1477,17 +1630,20 @@ Build order, in priority sequence:
 - Full tournament schedule (all teams, all games) available as tap-in option
 
 #### 5.3 Tournament Mode — Exit
+
 - After tournament's last game, prompt to exit Tournament Mode
 - Returns to normal dashboard view
 - Tournament data remains accessible in historical views
 
 #### 5.4 Scenario Engine — Core Logic
+
 - Takes as input: current pool standings, remaining games, tiebreaker rules
 - Generates all possible outcome permutations for remaining games
 - For each permutation, calculates final standings using full tiebreaker logic
 - Determines: guaranteed advance, eliminated, and conditional scenarios
 
 #### 5.5 Scenario Engine — User-Facing Output
+
 - Simple language output:
   - "You're guaranteed to advance if you win your next game"
   - "You need to win by 2+ goals AND Team C needs to lose"
@@ -1497,11 +1653,13 @@ Build order, in priority sequence:
 - Accessible from tournament standings view and via AI chat
 
 #### 5.6 Scenario Engine — AI Integration
+
 - AI chat can trigger scenario calculations
 - "What do we need to advance?" → runs engine, returns natural language answer with rule citations
 - "What happens if we win 3-0 and Team C loses?" → runs specific scenario
 
 #### 5.7 Offline Score Entry
+
 - Score entry form works without internet connection
 - Uses local storage / service worker to queue entries
 - Syncs to Supabase when connection returns
@@ -1509,6 +1667,7 @@ Build order, in priority sequence:
 - Visual indicator showing "offline — will sync when connected"
 
 #### 5.8 In-App Notification Center
+
 - Central location for all notifications
 - Unread count badge on notification icon
 - Notification types:
@@ -1520,12 +1679,14 @@ Build order, in priority sequence:
 - Mark as read / dismiss
 
 #### 5.9 Player Stats — Roster Setup
+
 - Create roster for your team: player name, jersey number, position
 - Roster is private — only visible to Teammates and above
 - Never exposed to Public Followers
 - Players linked to team and season
 
 #### 5.10 Player Stats — Live Entry UI
+
 - Tap-based interface designed for speed during a game
 - Select player by jersey number (large tap targets)
 - Quick actions: Goal, Assist, Penalty
@@ -1535,34 +1696,40 @@ Build order, in priority sequence:
 - Active scorer lock: one person claims scoring for a game, others see it's being handled
 
 #### 5.11 Player Stats — Multi-Submission Merge
+
 - If two people submit stats for the same game:
   - Matches auto-confirm
   - Conflicts flagged side-by-side for resolution
   - Same smart merge logic as CSV import
 
 #### 5.12 Player Stats — Views & Queries
+
 - Player stat leaders (goals, assists, points, PIMs)
 - Individual player cards with season totals
 - Game-by-game stat log per player
 - AI chat can answer player stat questions: "Who has the most goals this month?" "How many assists does #12 have?"
 
 #### 5.13 Goalie Stats
+
 - Saves, goals against, goals against average (GAA), shutouts
 - Per-game and season totals
 - Save percentage calculation
 
 #### 5.14 Team Shot Tracking
+
 - Shots on goal per team (not per player)
 - Per period and game total
 - Shot differential tracking
 
 #### 5.15 Practice Scheduling
+
 - Add practices to the schedule view
 - Date, time, location
 - Distinct visual treatment from games (different color/icon)
 - Optional — teams can choose to use it or not
 
 #### 5.16 Voice-to-Stats Input
+
 - Speak events during a game: "Number 12 goal, assisted by number 7 and number 15"
 - Browser speech-to-text or Whisper API transcribes audio
 - App parses transcription into structured stat events
@@ -1570,6 +1737,7 @@ Build order, in priority sequence:
 - Handles common hockey terminology and jersey number recognition
 
 #### 5.17 Provincial Qualifier / Loop Configuration
+
 - Set up per age/skill level
 - Define the loop: which teams, how many qualify
 - Set format (round robin, series)
@@ -1579,6 +1747,7 @@ Build order, in priority sequence:
 - Support linked tournaments: standing in qualifier determines entry into Provincials
 
 #### 5.18 Historical Data Onboarding Flow
+
 - Guided setup when creating a new team mid-season
 - Step-by-step wizard:
   1. Import or enter your schedule
@@ -1595,29 +1764,29 @@ Build order, in priority sequence:
 
 Some features depend on others being built first:
 
-| Feature | Depends On |
-|---|---|
-| Roles & Permissions (2.2) | Auth (2.1) |
-| Invite System (2.3) | Auth (2.1), Roles (2.2) |
-| Member Management (2.4) | Auth (2.1), Roles (2.2) |
-| Multi-Team Support (2.5) | Auth (2.1) |
-| CSV Smart Merge (3.5) | CSV Parser (3.4), CSV Templates (3.3) |
-| Dashboard Next Game (3.6) | Regular Season (2.6) |
-| Dashboard Marquee (3.9) | Following Teams (4.2) for full value, but infrastructure can be built earlier |
-| Follow a Team (4.2) | Team Discovery (4.1) |
-| Friends View (4.4) | Follow a Team (4.2) |
-| Cross-Team Overlaps (4.5) | Follow a Team (4.2), Friends View (4.4) |
-| Source of Truth (4.8) | Team Discovery (4.1), Team Creation (4.7) |
-| Tournament Mode (5.1–5.3) | Tournament features from Phase 1 |
-| Scenario Engine (5.4–5.6) | Pool Standings with Tiebreakers from Phase 1 |
-| Player Stats Entry (5.10) | Roster Setup (5.9) |
-| Player Stats Merge (5.11) | Player Stats Entry (5.10), Smart Merge (3.5) |
-| Player Stats Views (5.12) | Player Stats Entry (5.10) |
-| Goalie Stats (5.13) | Roster Setup (5.9), Player Stats Entry (5.10) |
-| Voice-to-Stats (5.16) | Player Stats Entry (5.10) |
-| Provincial Qualifier (5.17) | Tournament Configuration from Phase 1, CSV Import (3.3–3.5) |
-| Historical Onboarding (5.18) | CSV Import (3.3–3.5), Regular Season (2.6) |
+| Feature                      | Depends On                                                                    |
+| ---------------------------- | ----------------------------------------------------------------------------- |
+| Roles & Permissions (2.2)    | Auth (2.1)                                                                    |
+| Invite System (2.3)          | Auth (2.1), Roles (2.2)                                                       |
+| Member Management (2.4)      | Auth (2.1), Roles (2.2)                                                       |
+| Multi-Team Support (2.5)     | Auth (2.1)                                                                    |
+| CSV Smart Merge (3.5)        | CSV Parser (3.4), CSV Templates (3.3)                                         |
+| Dashboard Next Game (3.6)    | Regular Season (2.6)                                                          |
+| Dashboard Marquee (3.9)      | Following Teams (4.2) for full value, but infrastructure can be built earlier |
+| Follow a Team (4.2)          | Team Discovery (4.1)                                                          |
+| Friends View (4.4)           | Follow a Team (4.2)                                                           |
+| Cross-Team Overlaps (4.5)    | Follow a Team (4.2), Friends View (4.4)                                       |
+| Source of Truth (4.8)        | Team Discovery (4.1), Team Creation (4.7)                                     |
+| Tournament Mode (5.1–5.3)    | Tournament features from Phase 1                                              |
+| Scenario Engine (5.4–5.6)    | Pool Standings with Tiebreakers from Phase 1                                  |
+| Player Stats Entry (5.10)    | Roster Setup (5.9)                                                            |
+| Player Stats Merge (5.11)    | Player Stats Entry (5.10), Smart Merge (3.5)                                  |
+| Player Stats Views (5.12)    | Player Stats Entry (5.10)                                                     |
+| Goalie Stats (5.13)          | Roster Setup (5.9), Player Stats Entry (5.10)                                 |
+| Voice-to-Stats (5.16)        | Player Stats Entry (5.10)                                                     |
+| Provincial Qualifier (5.17)  | Tournament Configuration from Phase 1, CSV Import (3.3–3.5)                   |
+| Historical Onboarding (5.18) | CSV Import (3.3–3.5), Regular Season (2.6)                                    |
 
 ---
 
-*Detailed build order complete. Each phase can be handed to Claude Code as a sequential task list.*
+_Detailed build order complete. Each phase can be handed to Claude Code as a sequential task list._
