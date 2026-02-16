@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { MY_TEAM_ID } from "@/lib/constants"
+import { useTeam } from "@/components/team/TeamProvider"
 import type { Game, Team, RankingsMap } from "@/lib/types"
 
 interface GameCardProps {
@@ -79,6 +79,7 @@ function TeamDisplay({
 }
 
 export function GameCard({ game, rankings, onTap, onTeamTap }: GameCardProps) {
+  const { activeTeamId: MY_TEAM_ID } = useTeam()
   const isMyTeam =
     game.home_team_id === MY_TEAM_ID || game.away_team_id === MY_TEAM_ID
   const isInProgress = game.status === "in_progress"

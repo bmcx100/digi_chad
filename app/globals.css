@@ -355,8 +355,22 @@
   backdrop-filter: blur(14px);
 }
 
+.top-nav__left {
+  @apply flex items-center gap-3;
+}
+
 .top-nav__brand {
   @apply flex items-baseline leading-none;
+}
+
+.top-nav__team-badge {
+  @apply flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs
+         font-medium border border-border text-muted-foreground
+         transition-colors hover:text-foreground hover:border-foreground/30;
+}
+
+.top-nav__team-badge-icon {
+  @apply h-3 w-3;
 }
 
 .top-nav__brand-name {
@@ -475,6 +489,12 @@
 /* ============================================
    App Content Wrapper
    ============================================ */
+
+.app-brand {
+  @apply text-center font-normal tracking-tight py-3 lg:hidden;
+  font-size: 1.25rem;
+  font-family: var(--font-geist-sans), sans-serif;
+}
 
 .app-content {
   @apply lg:mx-auto;
@@ -1104,4 +1124,206 @@
 
 .chat-mic-btn--active {
   @apply bg-red-500 text-white hover:bg-red-600;
+}
+
+/* ============================================
+   Team Picker Styles
+   ============================================ */
+
+.team-picker {
+  @apply flex flex-col items-center px-4 pt-8 pb-0;
+  height: calc(100dvh - 3.5rem);
+  overflow: hidden;
+}
+
+
+.team-picker__brand {
+  @apply text-4xl font-bold tracking-tight;
+}
+
+.team-picker__tagline {
+  @apply text-sm text-muted-foreground tracking-wide mt-1;
+}
+
+.team-picker__section {
+  @apply w-full max-w-md mt-auto rounded-lg p-3 shrink-0;
+  margin-bottom: 3.5rem;
+}
+
+.team-picker--home {
+  @apply justify-center;
+}
+
+.team-picker__your-teams {
+  @apply w-full max-w-md flex flex-col gap-3 px-1;
+}
+
+.team-picker__add-teams-btn {
+  @apply fixed left-4 right-4 py-3 rounded-lg font-bold text-lg
+         text-center z-50 text-white;
+  bottom: 4rem;
+  background: #3d3d3d;
+}
+
+.team-picker__done-btn {
+  @apply fixed left-4 right-4 py-3 rounded-lg text-white font-bold text-lg
+         text-center z-50;
+  bottom: 4rem;
+  background: #D33125;
+}
+
+.team-picker__section-title {
+  @apply text-sm font-semibold text-white uppercase tracking-wider mb-3 text-center;
+}
+
+.team-picker__favourites {
+  @apply flex flex-col gap-2;
+}
+
+.team-picker__card {
+  @apply w-full flex items-center justify-between rounded-lg border px-4 py-3
+         text-left transition-colors hover:border-primary/50 cursor-pointer;
+  background: oklch(0.22 0 0 / 0.92);
+  backdrop-filter: blur(8px);
+}
+
+.team-picker__card-info {
+  @apply flex flex-col;
+}
+
+.team-picker__card-name {
+  @apply text-base font-semibold text-foreground;
+}
+
+.team-picker__card-subname {
+  @apply text-sm text-muted-foreground;
+}
+
+.team-picker__card-meta {
+  @apply flex items-center gap-2;
+}
+
+.team-picker__card-rank {
+  @apply text-sm text-muted-foreground;
+}
+
+.team-picker__add-btn {
+  @apply flex items-center gap-1.5 text-sm text-muted-foreground
+         hover:text-foreground transition-colors mb-4;
+}
+
+.team-picker__add-icon {
+  @apply h-4 w-4;
+}
+
+.team-picker__selector {
+  @apply w-full max-w-md flex flex-col flex-1 min-h-0;
+}
+
+.team-picker__filters {
+  @apply flex flex-col gap-2 mb-3;
+}
+
+.team-picker__search-wrap {
+  @apply relative;
+}
+
+.team-picker__search-icon {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground;
+}
+
+.team-picker__search-input {
+  @apply pl-9;
+}
+
+.team-picker__filter-row {
+  @apply flex gap-2;
+}
+
+.team-picker__select {
+  @apply flex-1 h-9 rounded-md border px-3 text-sm;
+  background: oklch(0.22 0 0 / 0.92);
+}
+
+.team-picker__list-wrap {
+  @apply relative flex-1 min-h-0;
+}
+
+.team-picker__scroll-hint {
+  @apply absolute left-0 right-0 z-10 flex justify-center pointer-events-none;
+}
+
+.team-picker__scroll-hint--top {
+  @apply top-0;
+}
+
+.team-picker__scroll-hint--bottom {
+  @apply bottom-0;
+}
+
+.team-picker__scroll-hint-icon {
+  @apply h-8 w-8 animate-bounce rounded-full p-1.5 text-white;
+  background: #3d3d3d;
+}
+
+.team-picker__list {
+  @apply flex flex-col gap-3 overflow-y-auto rounded-lg px-1 py-1 h-full;
+  scrollbar-width: none;
+}
+
+.team-picker__list::-webkit-scrollbar {
+  display: none;
+}
+
+.team-picker__loading {
+  @apply text-center text-sm text-muted-foreground py-8;
+}
+
+.team-picker__empty {
+  @apply text-center text-sm text-muted-foreground py-8;
+}
+
+.team-picker__row {
+  @apply relative flex items-center rounded-md overflow-hidden;
+  min-height: 4rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: oklch(0.15 0 0);
+}
+
+.team-picker__row--unselected::after {
+  content: "";
+  @apply absolute inset-0 pointer-events-none;
+  background: #D9D9D9CC;
+}
+
+.team-picker__fav-btn {
+  @apply relative z-10 shrink-0 p-3;
+  color: #3d3d3d;
+         hover:text-red-400 transition-colors;
+}
+
+.team-picker__fav-btn--active {
+  @apply text-red-400;
+}
+
+.team-picker__fav-icon {
+  @apply h-5 w-5 drop-shadow;
+}
+
+.team-picker__fav-btn--active .team-picker__fav-icon {
+  fill: currentColor;
+}
+
+.team-picker__row-main {
+  @apply relative z-10 flex-1 cursor-pointer min-w-0;
+}
+
+.team-picker__row-division {
+  @apply relative z-10 shrink-0 pr-4 text-white font-bold cursor-pointer
+         transition-opacity hover:opacity-80;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 1.25rem;
+  line-height: 1;
 }

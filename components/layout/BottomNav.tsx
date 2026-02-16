@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Calendar, Trophy, Ellipsis, MessageSquare } from "lucide-react"
+import { Calendar, Trophy, Ellipsis, MessageSquare, ArrowLeftRight } from "lucide-react"
 
 const navItems = [
   { href: "/standings", label: "Standings", icon: Trophy },
@@ -17,6 +17,16 @@ export function BottomNav() {
 
   return (
     <nav className="bottom-nav">
+      <Link
+        href="/?pick"
+        className={cn(
+          "bottom-nav__item",
+          pathname === "/" && "bottom-nav__item--active"
+        )}
+      >
+        <ArrowLeftRight className="bottom-nav__icon" />
+        <span>Team</span>
+      </Link>
       {navItems.map((item) => {
         const isActive = pathname === item.href
         const Icon = item.icon

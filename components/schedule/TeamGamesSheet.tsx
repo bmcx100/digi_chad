@@ -7,7 +7,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
-import { MY_TEAM_ID } from "@/lib/constants"
+import { useTeam } from "@/components/team/TeamProvider"
 import type { Game, RankingsMap } from "@/lib/types"
 
 interface TeamGamesSheetProps {
@@ -41,6 +41,7 @@ export function TeamGamesSheet({
   open,
   onOpenChange,
 }: TeamGamesSheetProps) {
+  const { activeTeamId: MY_TEAM_ID } = useTeam()
   if (!teamId) return null
 
   const teamGames = games

@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef } from "react"
 import Papa from "papaparse"
 import { createClient } from "@/lib/supabase/client"
-import { TOURNAMENT_ID } from "@/lib/constants"
+import { useTeam } from "@/components/team/TeamProvider"
 import { Button } from "@/components/ui/button"
 import {
   Select,
@@ -50,6 +50,7 @@ const ALL_COLUMNS: Record<ImportType, string[]> = {
 }
 
 export function CsvImport() {
+  const { activeTournamentId: TOURNAMENT_ID } = useTeam()
   const [importType, setImportType] = useState<ImportType | "">("")
   const [parsedData, setParsedData] = useState<ParsedRow[]>([])
   const [fileName, setFileName] = useState("")

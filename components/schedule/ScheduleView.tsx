@@ -118,10 +118,6 @@ export function ScheduleView({
     <div>
       <div className="schedule-nav" ref={navRef}>
         <div className="schedule-nav__header">
-          <div className="page-brand-row">
-            <h1 className="page-brand">Chadiós</h1>
-            <span className="page-tagline">Adiós a los Datos Básicos</span>
-          </div>
           {tournamentName && (
             <p className="page-tournament">{tournamentName}</p>
           )}

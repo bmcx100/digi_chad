@@ -40,7 +40,7 @@ export function MiscView({ semi1, semi2, finalGame, rankings }: MiscViewProps) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/hisnameis.png"
-              alt="His name is Chad"
+              alt="Stat in Stand"
               className="bracket-footer-img"
             />
           </div>

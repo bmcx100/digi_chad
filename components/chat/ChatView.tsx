@@ -138,10 +138,6 @@ export function ChatView() {
   return (
     <div className="chat-page">
       <header className="chat-header">
-        <div className="page-brand-row">
-          <h1 className="chat-title">Chadiós</h1>
-          <span className="chat-tagline">Adiós a los Datos Básicos</span>
-        </div>
       </header>
 
       <div

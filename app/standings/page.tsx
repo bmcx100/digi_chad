@@ -1,10 +1,12 @@
 import { createClient } from "@/lib/supabase/server"
-import { TOURNAMENT_ID, MY_TEAM_ID } from "@/lib/constants"
+import { getActiveTournamentId, getActiveTeamId } from "@/lib/active-team"
 import { calculateStandings } from "@/lib/standings-engine"
 import { StandingsView } from "@/components/standings/StandingsView"
 import type { Game, TiebreakerRule, RankingsMap } from "@/lib/types"
 
 export default async function StandingsPage() {
+  const TOURNAMENT_ID = await getActiveTournamentId()
+  const MY_TEAM_ID = await getActiveTeamId()
   const supabase = await createClient()
 
   const { data: tournament } = await supabase
@@ -101,10 +103,6 @@ export default async function StandingsPage() {
   return (
     <div className="standings-page">
       <div className="standings-header">
-        <div className="page-brand-row">
-          <h1 className="page-brand">Chadiós</h1>
-          <span className="page-tagline">Adiós a los Datos Básicos</span>
-        </div>
         <p className="page-tournament">{tournament?.name}</p>
         <a
           href="https://tournkey.app/live/2026-dwgha-bolts-and-hearts#LiveResults"

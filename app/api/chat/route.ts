@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk"
 import { createClient } from "@/lib/supabase/server"
 import { calculateStandings } from "@/lib/standings-engine"
-import { TOURNAMENT_ID } from "@/lib/constants"
+import { getActiveTournamentId } from "@/lib/active-team"
 import type { Game, TiebreakerRule } from "@/lib/types"
 
 const anthropic = new Anthropic()
@@ -63,7 +63,8 @@ const tools: Anthropic.Tool[] = [
 
 async function handleToolCall(
   name: string,
-  input: Record<string, string>
+  input: Record<string, string>,
+  TOURNAMENT_ID: string
 ): Promise<string> {
   const supabase = await createClient()
 
@@ -257,9 +258,10 @@ CRITICAL RULES FOR RESPONSES:
 - Only include what was directly asked. Do not volunteer extra info.
 - When referencing rules, cite the rule number briefly (e.g., "Rule 12c").
 - Use the tools to fetch only the data you need.
-- If you cannot find the answer from the available tools/data, or the question is about something you have no information on, respond with exactly: "I have no clue... Who am I, Chad???"`
+- If you cannot find the answer from the available tools/data, or the question is about something you have no information on, respond with exactly: "I have no clue..."`
 
 export async function POST(req: Request) {
+  const TOURNAMENT_ID = await getActiveTournamentId()
   const { messages } = await req.json()
 
   if (!messages || !Array.isArray(messages)) {
@@ -288,7 +290,8 @@ export async function POST(req: Request) {
         if (block.type === "tool_use") {
           const result = await handleToolCall(
             block.name,
-            block.input as Record<string, string>
+            block.input as Record<string, string>,
+            TOURNAMENT_ID
           )
           toolResults.push({
             type: "tool_result" as const,

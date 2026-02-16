@@ -1,5 +1,10 @@
-import { redirect } from "next/navigation"
+import { Suspense } from "react"
+import { TeamPickerGate } from "@/components/team/TeamPickerGate"
 
 export default function Home() {
-  redirect("/standings")
+  return (
+    <Suspense>
+      <TeamPickerGate />
+    </Suspense>
+  )
 }
